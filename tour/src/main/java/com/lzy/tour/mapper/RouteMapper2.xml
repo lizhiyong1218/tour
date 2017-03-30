@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="test.java.out.RouteMapper" >
+  <resultMap id="BaseResultMap" type="test.java.out.Route" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="route_status" property="routeStatus" jdbcType="VARCHAR" />
+    <result column="route_type" property="routeType" jdbcType="VARCHAR" />
+    <result column="route_feature" property="routeFeature" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="pub_time" property="pubTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
+    <result column="end_address" property="endAddress" jdbcType="VARCHAR" />
+    <result column="total_people" property="totalPeople" jdbcType="INTEGER" />
+    <result column="min_start_people" property="minStartPeople" jdbcType="INTEGER" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="current_price" property="currentPrice" jdbcType="DECIMAL" />
+    <result column="group_pic_url" property="groupPicUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="test.java.out.RouteWithBLOBs" extends="BaseResultMap" >
+    <result column="detail_desc" property="detailDesc" jdbcType="LONGVARCHAR" />
+    <result column="price_desc" property="priceDesc" jdbcType="LONGVARCHAR" />
+    <result column="prepare_desc" property="prepareDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, city, route_status, route_type, route_feature, pic_url, pub_time, start_time, 
+    end_time, start_address, end_address, total_people, min_start_people, original_price, 
+    current_price, group_pic_url, create_time, create_by, update_time, update_by
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail_desc, price_desc, prepare_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_route
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_route
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="test.java.out.RouteWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_route (id, title, city, 
+      route_status, route_type, route_feature, 
+      pic_url, pub_time, start_time, 
+      end_time, start_address, end_address, 
+      total_people, min_start_people, original_price, 
+      current_price, group_pic_url, create_time, 
+      create_by, update_time, update_by, 
+      detail_desc, price_desc, prepare_desc
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{routeStatus,jdbcType=VARCHAR}, #{routeType,jdbcType=VARCHAR}, #{routeFeature,jdbcType=VARCHAR}, 
+      #{picUrl,jdbcType=VARCHAR}, #{pubTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{startAddress,jdbcType=VARCHAR}, #{endAddress,jdbcType=VARCHAR}, 
+      #{totalPeople,jdbcType=INTEGER}, #{minStartPeople,jdbcType=INTEGER}, #{originalPrice,jdbcType=DECIMAL}, 
+      #{currentPrice,jdbcType=DECIMAL}, #{groupPicUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{detailDesc,jdbcType=LONGVARCHAR}, #{priceDesc,jdbcType=LONGVARCHAR}, #{prepareDesc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="test.java.out.RouteWithBLOBs" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_route
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="routeStatus != null" >
+        route_status,
+      </if>
+      <if test="routeType != null" >
+        route_type,
+      </if>
+      <if test="routeFeature != null" >
+        route_feature,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="pubTime != null" >
+        pub_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="startAddress != null" >
+        start_address,
+      </if>
+      <if test="endAddress != null" >
+        end_address,
+      </if>
+      <if test="totalPeople != null" >
+        total_people,
+      </if>
+      <if test="minStartPeople != null" >
+        min_start_people,
+      </if>
+      <if test="originalPrice != null" >
+        original_price,
+      </if>
+      <if test="currentPrice != null" >
+        current_price,
+      </if>
+      <if test="groupPicUrl != null" >
+        group_pic_url,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="detailDesc != null" >
+        detail_desc,
+      </if>
+      <if test="priceDesc != null" >
+        price_desc,
+      </if>
+      <if test="prepareDesc != null" >
+        prepare_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStatus != null" >
+        #{routeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="routeType != null" >
+        #{routeType,jdbcType=VARCHAR},
+      </if>
+      <if test="routeFeature != null" >
+        #{routeFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pubTime != null" >
+        #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startAddress != null" >
+        #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="endAddress != null" >
+        #{endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPeople != null" >
+        #{totalPeople,jdbcType=INTEGER},
+      </if>
+      <if test="minStartPeople != null" >
+        #{minStartPeople,jdbcType=INTEGER},
+      </if>
+      <if test="originalPrice != null" >
+        #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="currentPrice != null" >
+        #{currentPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="groupPicUrl != null" >
+        #{groupPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="detailDesc != null" >
+        #{detailDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="priceDesc != null" >
+        #{priceDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="prepareDesc != null" >
+        #{prepareDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="test.java.out.RouteWithBLOBs" >
+    update t_route
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="routeStatus != null" >
+        route_status = #{routeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="routeType != null" >
+        route_type = #{routeType,jdbcType=VARCHAR},
+      </if>
+      <if test="routeFeature != null" >
+        route_feature = #{routeFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pubTime != null" >
+        pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startAddress != null" >
+        start_address = #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="endAddress != null" >
+        end_address = #{endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPeople != null" >
+        total_people = #{totalPeople,jdbcType=INTEGER},
+      </if>
+      <if test="minStartPeople != null" >
+        min_start_people = #{minStartPeople,jdbcType=INTEGER},
+      </if>
+      <if test="originalPrice != null" >
+        original_price = #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="currentPrice != null" >
+        current_price = #{currentPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="groupPicUrl != null" >
+        group_pic_url = #{groupPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="detailDesc != null" >
+        detail_desc = #{detailDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="priceDesc != null" >
+        price_desc = #{priceDesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="prepareDesc != null" >
+        prepare_desc = #{prepareDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="test.java.out.RouteWithBLOBs" >
+    update t_route
+    set title = #{title,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      route_status = #{routeStatus,jdbcType=VARCHAR},
+      route_type = #{routeType,jdbcType=VARCHAR},
+      route_feature = #{routeFeature,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      start_address = #{startAddress,jdbcType=VARCHAR},
+      end_address = #{endAddress,jdbcType=VARCHAR},
+      total_people = #{totalPeople,jdbcType=INTEGER},
+      min_start_people = #{minStartPeople,jdbcType=INTEGER},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      current_price = #{currentPrice,jdbcType=DECIMAL},
+      group_pic_url = #{groupPicUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      detail_desc = #{detailDesc,jdbcType=LONGVARCHAR},
+      price_desc = #{priceDesc,jdbcType=LONGVARCHAR},
+      prepare_desc = #{prepareDesc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="test.java.out.Route" >
+    update t_route
+    set title = #{title,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      route_status = #{routeStatus,jdbcType=VARCHAR},
+      route_type = #{routeType,jdbcType=VARCHAR},
+      route_feature = #{routeFeature,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      start_address = #{startAddress,jdbcType=VARCHAR},
+      end_address = #{endAddress,jdbcType=VARCHAR},
+      total_people = #{totalPeople,jdbcType=INTEGER},
+      min_start_people = #{minStartPeople,jdbcType=INTEGER},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      current_price = #{currentPrice,jdbcType=DECIMAL},
+      group_pic_url = #{groupPicUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

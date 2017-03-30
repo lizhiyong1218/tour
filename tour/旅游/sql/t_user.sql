@@ -1,0 +1,21 @@
+CREATE TABLE `t_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_name` varchar(50) default NULL COMMENT '登录名',
+  `salt` varchar(20) default NULL COMMENT '密码加盐',
+  `pwd` varchar(100) default NULL COMMENT '密码',
+  `nick_name` varchar(50) default NULL COMMENT '昵称',
+  `status` varchar(10) default NULL COMMENT '状态(ENABLED:可用,DISABLED:停用)',
+  `role` varchar(10) default NULL COMMENT '角色(admin:管理员，normal:普通)',
+  `pic_url` varchar(240) default NULL COMMENT '头像',
+  `sex` varchar(10) default NULL COMMENT '性别',
+  `phone` varchar(20) default NULL COMMENT '手机',
+  `email` varchar(40) default NULL COMMENT '邮箱',
+  `register_time` datetime default NULL COMMENT '注册时间',
+  `background_url` varchar(240) default NULL COMMENT '背景图',
+  `work` varchar(100) default NULL COMMENT '行业工作',
+  `hobby` varchar(100) default NULL COMMENT '兴趣爱好',
+  `proficient_route` varchar(200) default NULL COMMENT '精通路线',
+  `bean_palace` varchar(200) default NULL COMMENT '去过的地方',
+  `introduction` varchar(300) default NULL COMMENT '个人说明',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

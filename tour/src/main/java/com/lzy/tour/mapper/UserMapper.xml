@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzy.tour.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="user" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="background_url" property="backgroundUrl" jdbcType="VARCHAR" />
+    <result column="work" property="work" jdbcType="VARCHAR" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="proficient_route" property="proficientRoute" jdbcType="VARCHAR" />
+    <result column="bean_palace" property="beanPalace" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+     id, user_name, salt, pwd,status, nick_name, role, pic_url, sex, phone, email, register_time,
+     background_url,work,hobby,proficient_route,bean_palace,introduction
+  </sql>
+  
+  <sql id="table_name">
+  	t_user
+  </sql>
+  
+  <sql id="pageModelwhere">
+	<if test="userName != null and userName != ''">
+		AND user_name =  #{userName,jdbcType=VARCHAR}
+	</if>
+  </sql>
+  
+ <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from <include refid="table_name" />
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from <include refid="table_name" />
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="getByName" parameterType="java.lang.String"
+  	resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from  <include refid="table_name" />
+  	where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getOneByNamePrefix"  parameterType="java.lang.String"
+  	resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from  <include refid="table_name" />
+  	where  user_name like CONCAT(#{namePrefix,jdbcType=VARCHAR},'%') 
+  </select>
+  
+  <select id="getAll" parameterType="map" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from <include refid="table_name" />  
+  	<where>
+	<include refid="pageModelwhere" />
+	</where>
+  </select>
+  
+  <insert id="insertSelective" parameterType="user" >
+    insert into <include refid="table_name" /> 
+     <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="pwd != null" >
+        pwd,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="backgroundUrl != null" >
+        background_url,
+      </if>
+      <if test="work != null" >
+        work,
+      </if>
+      <if test="hobby != null" >
+        hobby,
+      </if>
+      <if test="proficientRoute != null" >
+        proficient_route,
+      </if>
+      <if test="beanPalace != null" >
+        bean_palace,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backgroundUrl != null" >
+        #{backgroundUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="proficientRoute != null" >
+        #{proficientRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="beanPalace != null" >
+        #{beanPalace,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if> 
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="user" >
+    update <include refid="table_name" />
+    <set>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="backgroundUrl != null" >
+        background_url = #{backgroundUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null" >
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="proficientRoute != null" >
+        proficient_route = #{proficientRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="beanPalace != null" >
+        bean_palace = #{beanPalace,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>    
+</mapper>
