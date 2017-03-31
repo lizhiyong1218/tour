@@ -28,7 +28,6 @@ public class MBGenerateUtil {
          */
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-//        File configFile = new File("src/main/resources/mbg_configuration.xml");
         String path= MBGenerateUtil.class.getClassLoader().getResource("mbg_configuration.xml").getPath();
         File configFile = new File(path);
         ConfigurationParser cp = new ConfigurationParser(warnings);

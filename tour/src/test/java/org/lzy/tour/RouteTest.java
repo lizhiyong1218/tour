@@ -13,17 +13,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lzy.tour.dao.UserMapper;
 import com.lzy.tour.enums.RouteFutrueEnum;
 import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.model.Route;
-import com.lzy.tour.model.User;
 import com.lzy.tour.service.RouteService;
-import com.lzy.tour.service.UserService;
  
 public class RouteTest extends BaseTest {
 	 
@@ -84,12 +80,11 @@ public class RouteTest extends BaseTest {
 	
 	@Test
 	public void testFindAll(){
-//		Map<String, Object> map=new HashMap<String, Object>();
-//		map.put("userName", "lzy4");
-//		List<User> list=userMapper.getAll(map);
-//		for (User user2 : list) {
-//			System.out.println(user2);
-//		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		List<Route> list=routeService.getAll(map);
+		for (Route user2 : list) {
+			System.out.println(user2);
+		}
 	}
 	
 }
