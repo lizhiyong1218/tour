@@ -277,6 +277,12 @@
 		<version>${junit.version}</version>
 	</dependency>
 	
+	<dependency>       
+        <groupId>com.foxinmy</groupId>
+        <artifactId>weixin4j-mp</artifactId>
+        <version>1.7.4</version>
+    </dependency>
+	
   </dependencies> 
   
   <build>

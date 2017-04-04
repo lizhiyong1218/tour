@@ -1,5 +1,6 @@
 CREATE TABLE `t_user` (
   `id` int(11) NOT NULL auto_increment,
+  `open_id` varchar(100) default NULL COMMENT '微信用户公众号生成的id',
   `user_name` varchar(50) default NULL COMMENT '登录名',
   `salt` varchar(20) default NULL COMMENT '密码加盐',
   `pwd` varchar(100) default NULL COMMENT '密码',

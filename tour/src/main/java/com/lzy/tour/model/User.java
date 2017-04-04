@@ -26,6 +26,8 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 2734339282011057392L;
 	
 	private Integer id;
+	/*微信公众号生成的id*/
+	private String openId;
 	/*用户名*/
     private String userName;
     /**/
@@ -69,7 +71,15 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public String getUserName() {
+    public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public String getUserName() {
         return userName;
     }
 
@@ -207,14 +217,12 @@ public class User implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", salt=" + salt
-				+ ", pwd=" + pwd + ", nickName=" + nickName + ", status="
-				+ status + ", role=" + role + ", picUrl=" + picUrl
-				+ ", backgroundUrl=" + backgroundUrl + ", sex=" + sex
-				+ ", phone=" + phone + ", work=" + work + ", hobby=" + hobby
-				+ ", proficientRoute=" + proficientRoute + ", beanPalace="
-				+ beanPalace + ", introduction=" + introduction + ", email=" + email
-				+ ", registerTime=" + registerTime + "]";
+		return "User [id=" + id + ", openId=" + openId + ", userName="
+				+ userName + ", salt=" + salt + ", pwd=" + pwd + ", nickName="
+				+ nickName + ", status=" + status + ", role=" + role
+				+ ", picUrl=" + picUrl + ", sex=" + sex + ", phone=" + phone
+				+ ", email=" + email + ", registerTime=" + registerTime
+				+ ", backgroundUrl=" + backgroundUrl + ", work=" + work
+				+ ", hobby=" + hobby + "]";
 	}
-    
 }

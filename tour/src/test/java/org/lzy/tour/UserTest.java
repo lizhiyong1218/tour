@@ -19,7 +19,7 @@ import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.model.User;
 import com.lzy.tour.service.UserService;
  
-public class UseTest extends BaseTest {
+public class UserTest extends BaseTest {
 	@Autowired 
 	private UserMapper userMapper;
 	@Resource
@@ -29,6 +29,7 @@ public class UseTest extends BaseTest {
 	public void testSave() {
 		for(int i=0;i<1;i++){
 			User user=new User();
+			user.setOpenId("o"+i);
 			user.setUserName("lzy"+i);
 			user.setSalt("ss");
 			user.setPwd("ss");
@@ -49,6 +50,7 @@ public class UseTest extends BaseTest {
 			user.setIntroduction("zzs");
 			
 			userService.insert(user);
+			System.err.println(user.getId()); 
 		}
 	}
 	
@@ -75,7 +77,8 @@ public class UseTest extends BaseTest {
 	@Test
 	public void testFindAll(){
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("userName", "lzy4");
+		map.put("openId", "o0");
+		map.put("id", 10);
 		List<User> list=userMapper.getAll(map);
 		for (User user2 : list) {
 			System.out.println(user2);

@@ -3,6 +3,7 @@
 <mapper namespace="com.lzy.tour.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="user" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="pwd" property="pwd" jdbcType="VARCHAR" />
@@ -23,7 +24,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-     id, user_name, salt, pwd,status, nick_name, role, pic_url, sex, phone, email, register_time,
+     id,open_id, user_name, salt, pwd,status, nick_name, role, pic_url, sex, phone, email, register_time,
      background_url,work,hobby,proficient_route,bean_palace,introduction
   </sql>
   
@@ -32,6 +33,13 @@
   </sql>
   
   <sql id="pageModelwhere">
+  	status='ENABLED'
+    <if test="id != null and id != ''">
+		AND id =  #{id,jdbcType=INTEGER}
+	</if>
+	<if test="openId != null and openId != ''">
+		AND open_id =  #{openId,jdbcType=VARCHAR}
+	</if>
 	<if test="userName != null and userName != ''">
 		AND user_name =  #{userName,jdbcType=VARCHAR}
 	</if>
@@ -43,6 +51,15 @@
     from <include refid="table_name" />
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+ <select id="getOnebyModel" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from <include refid="table_name" />
+    <where>
+	<include refid="pageModelwhere" />
+	</where>
+  </select>  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from <include refid="table_name" />
@@ -74,10 +91,13 @@
 	</where>
   </select>
   
-  <insert id="insertSelective" parameterType="user" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="user" >
     insert into <include refid="table_name" /> 
      <trim prefix="(" suffix=")" suffixOverrides="," >
       id,
+      <if test="openId != null" >
+        open_id,
+      </if>
       <if test="userName != null" >
         user_name,
       </if>
@@ -132,6 +152,9 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=INTEGER},
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
       </if>
@@ -189,6 +212,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="user" >
     update <include refid="table_name" />
     <set>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
