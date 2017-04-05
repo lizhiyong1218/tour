@@ -83,10 +83,8 @@ public class WeixinController {
             e.printStackTrace();  
         }  
         response.setCharacterEncoding("UTF-8");  
-  
         // 调用核心业务类接收消息、处理消息  
         String respMessage = coreService.processRequest(request);  
-  
         // 响应消息  
         PrintWriter out = null;  
         try {  
@@ -104,7 +102,7 @@ public class WeixinController {
 	@ResponseBody
 	public ApiResult addMenu(){
 		 WeixinProxy weixinProxy = new WeixinProxy();
-		 Button urlButton=new Button("测试跳转1", "http://localhost:8080/pure-web/weixin/getMenu.do", ButtonType.view);
+		 Button urlButton=new Button("首页", "http://wangreid.vicp.cc/tour/front/frontPage", ButtonType.view);
 		 Button clickButton=new Button("测试点击2", "testClick", ButtonType.click);
 		 List<Button> buttons=new ArrayList<Button>();
 		 buttons.add(urlButton);

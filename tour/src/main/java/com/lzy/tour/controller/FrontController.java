@@ -37,7 +37,7 @@ public class FrontController {
 	@Resource
 	private UserService userService;
 	
-	@RequestMapping("/front")
+	@RequestMapping("/frontPage")
 	public String front(HttpServletRequest request,HttpServletResponse response){
 		Cookie cooie = CookieUtil.getCooie(request, COOKIE_USER_ID);
 		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
@@ -45,7 +45,7 @@ public class FrontController {
 			User user = userService.getOneById(id);
 			if(user!=null){
 				request.getSession().setAttribute(SESSION_USER, user);
-				return "indexPage";
+				return indexPage();
 			}
 		}
 		WeixinProxy weixinProxy=new WeixinProxy();
@@ -112,7 +112,7 @@ public class FrontController {
 		} catch (WeixinException e) {
 			logger.error(e);
 		}
-		return "indexPage";
+		return indexPage();
 	}
 	
 	@RequestMapping("/indexPage")
