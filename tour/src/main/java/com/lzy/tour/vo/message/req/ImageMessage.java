@@ -1,4 +1,4 @@
-package com.lzy.tour.model.message.req;
+package com.lzy.tour.vo.message.req;
 /**
  * 图片消息
  * @author caspar.chen

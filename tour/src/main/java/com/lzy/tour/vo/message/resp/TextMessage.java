@@ -1,4 +1,4 @@
-package com.lzy.tour.model.message.req;
+package com.lzy.tour.vo.message.resp;
 
 
 /**
@@ -24,5 +24,9 @@ public class TextMessage extends BaseMessage {
 	public TextMessage(String content) {
 		super();
 		Content = content;
+	}
+
+	public TextMessage() {
+		super();
 	}
 }

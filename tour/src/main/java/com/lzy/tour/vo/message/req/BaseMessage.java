@@ -1,4 +1,4 @@
-package com.lzy.tour.model.message.req;
+package com.lzy.tour.vo.message.req;
 
 /**
  * 用户request请求消息基类

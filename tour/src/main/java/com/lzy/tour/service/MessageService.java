@@ -6,12 +6,12 @@ import java.util.Map;
 
 
 import com.lzy.tour.common.weixin.ConstantWeChat;
-import com.lzy.tour.model.message.resp.BaseMessage;
-import com.lzy.tour.model.message.resp.MediaMessage;
-import com.lzy.tour.model.message.resp.MusicMessage;
-import com.lzy.tour.model.message.resp.NewsMessage;
-import com.lzy.tour.model.message.resp.TextMessage;
-import com.lzy.tour.model.message.resp.VideoMessage;
+import com.lzy.tour.vo.message.resp.BaseMessage;
+import com.lzy.tour.vo.message.resp.MediaMessage;
+import com.lzy.tour.vo.message.resp.MusicMessage;
+import com.lzy.tour.vo.message.resp.NewsMessage;
+import com.lzy.tour.vo.message.resp.TextMessage;
+import com.lzy.tour.vo.message.resp.VideoMessage;
 //import com.ifp.wechat.util.MessageUtil;
 
 /**

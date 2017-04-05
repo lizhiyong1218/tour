@@ -1,4 +1,4 @@
-package com.lzy.tour.model.message.resp;
+package com.lzy.tour.vo.message.resp;
 
 import java.util.List;
 

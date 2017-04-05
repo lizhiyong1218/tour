@@ -1,4 +1,4 @@
-package com.lzy.tour.model.message.req;
+package com.lzy.tour.vo.message.req;
 
 /**
  * 地理位置消息
