@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.lzy.tour.enums.RouteFutrueEnum;
-import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.StatusEnum;
 
@@ -25,8 +24,6 @@ public class Route {
     private String city;
     /*状态*/
     private StatusEnum status;
-    /*路线状态*/
-    private RouteStatusEnum routeStatus;
     /*路线类型*/
     private RouteTypeEnum routeType;
     /*路线特色*/
@@ -35,10 +32,6 @@ public class Route {
     private String picUrl;
     /*发布时间*/
     private Date pubTime;
-    /*开始时间*/
-    private Date startTime;
-    /*结束时间*/
-    private Date endTime;
     /*出发地点*/
     private String startAddress;
     /*目的地*/
@@ -92,12 +85,6 @@ public class Route {
 	public void setStatus(StatusEnum status) {
 		this.status = status;
 	}
-	public RouteStatusEnum getRouteStatus() {
-		return routeStatus;
-	}
-	public void setRouteStatus(RouteStatusEnum routeStatus) {
-		this.routeStatus = routeStatus;
-	}
 	public RouteTypeEnum getRouteType() {
 		return routeType;
 	}
@@ -121,18 +108,6 @@ public class Route {
 	}
 	public void setPubTime(Date pubTime) {
 		this.pubTime = pubTime;
-	}
-	public Date getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
 	}
 	public String getStartAddress() {
 		return startAddress;
@@ -221,10 +196,9 @@ public class Route {
 	@Override
 	public String toString() {
 		return "Route [id=" + id + ", title=" + title + ", city=" + city
-				+ ", status=" + status + ", routeStatus=" + routeStatus
+				+ ", status=" + status  
 				+ ", routeType=" + routeType + ", routeFeature=" + routeFeature
 				+ ", picUrl=" + picUrl + ", pubTime=" + pubTime
-				+ ", startTime=" + startTime + ", endTime=" + endTime
 				+ ", startAddress=" + startAddress + ", endAddress="
 				+ endAddress + ", totalPeople=" + totalPeople
 				+ ", minStartPeople=" + minStartPeople + ", originalPrice="

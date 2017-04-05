@@ -6,13 +6,10 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="route_status" property="routeStatus" jdbcType="VARCHAR" />
     <result column="route_type" property="routeType" jdbcType="VARCHAR" />
     <result column="route_feature" property="routeFeature" jdbcType="VARCHAR" />
     <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
     <result column="pub_time" property="pubTime" jdbcType="TIMESTAMP" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
     <result column="end_address" property="endAddress" jdbcType="VARCHAR" />
     <result column="total_people" property="totalPeople" jdbcType="INTEGER" />
@@ -30,8 +27,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, title, city,status, route_status, route_type, route_feature, pic_url, pub_time, start_time, 
-    end_time, start_address, end_address, total_people, min_start_people, original_price, 
+    id, title, city,status, route_type, route_feature, pic_url, pub_time, start_address, end_address, total_people, min_start_people, original_price, 
     current_price, group_pic_url, create_time, create_by, update_time, update_by
   </sql>
   <sql id="Blob_Column_List" >
@@ -81,9 +77,6 @@
 	  <if test="status != null" >
         status,
       </if>
-      <if test="routeStatus != null" >
-        route_status,
-      </if>
       <if test="routeType != null" >
         route_type,
       </if>
@@ -95,12 +88,6 @@
       </if>
       <if test="pubTime != null" >
         pub_time,
-      </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="endTime != null" >
-        end_time,
       </if>
       <if test="startAddress != null" >
         start_address,
@@ -156,9 +143,6 @@
 	  <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="routeStatus != null" >
-        #{routeStatus,jdbcType=VARCHAR},
-      </if>
       <if test="routeType != null" >
         #{routeType,jdbcType=VARCHAR},
       </if>
@@ -170,12 +154,6 @@
       </if>
       <if test="pubTime != null" >
         #{pubTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="startAddress != null" >
         #{startAddress,jdbcType=VARCHAR},
@@ -234,9 +212,6 @@
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>      
-      <if test="routeStatus != null" >
-        route_status = #{routeStatus,jdbcType=VARCHAR},
-      </if>
       <if test="routeType != null" >
         route_type = #{routeType,jdbcType=VARCHAR},
       </if>
@@ -248,12 +223,6 @@
       </if>
       <if test="pubTime != null" >
         pub_time = #{pubTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="startAddress != null" >
         start_address = #{startAddress,jdbcType=VARCHAR},

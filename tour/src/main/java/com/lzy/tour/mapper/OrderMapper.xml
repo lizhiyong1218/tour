@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="order" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
-    <result column="route_id" property="routeId" jdbcType="INTEGER" />
+    <result column="route_detail_id" property="routeDetailId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
     <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
@@ -14,7 +14,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-     id, order_no,route_id, user_id, order_status, total_price, pay_type, pay_no, create_time
+     id, order_no,route_detail_id, user_id, order_status, total_price, pay_type, pay_no, create_time
   </sql>
   
   <sql id="table_name">
@@ -52,8 +52,8 @@
       <if test="orderNo != null" >
         order_no,
       </if>
-      <if test="routeId != null" >
-        route_id,
+      <if test="routeDetailId != null" >
+        route_detail_id,
       </if>
       <if test="userId != null" >
         user_id,
@@ -79,8 +79,8 @@
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="routeId != null" >
-        #{routeId,jdbcType=INTEGER},
+      <if test="routeDetailId != null" >
+        #{routeDetailId,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
@@ -109,8 +109,8 @@
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="routeId != null" >
-        route_id = #{routeId,jdbcType=INTEGER},
+      <if test="routeDetailId != null" >
+        route_detail_id = #{routeDetailId,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},

@@ -11,7 +11,7 @@ public class Order {
     /*订单编号*/
     private String orderNo;
     /*线路id*/
-    private Integer routeId;
+    private Integer routeDetailId;
     /*用户id*/
     private Integer userId;
     /*订单状态*/
@@ -73,17 +73,16 @@ public class Order {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
-	public Integer getRouteId() {
-		return routeId;
+	public Integer getRouteDetailId() {
+		return routeDetailId;
 	}
-	public void setRouteId(Integer routeId) {
-		this.routeId = routeId;
+	public void setRouteDetailId(Integer routeDetailId) {
+		this.routeDetailId = routeDetailId;
 	}
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", orderNo=" + orderNo + ", routeId="
-				+ routeId + ", userId=" + userId + ", orderStatus="
+		return "Order [id=" + id + ", orderNo=" + orderNo + ", routeDetailId="
+				+ routeDetailId + ", userId=" + userId + ", orderStatus="
 				+ orderStatus + ", totalPrice=" + totalPrice + ", payType="
 				+ payType + ", payNo=" + payNo + ", createTime=" + createTime
 				+ "]";

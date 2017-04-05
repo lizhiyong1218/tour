@@ -30,7 +30,7 @@ public class OrderTest extends BaseTest {
 		for(int i=0;i<10;i++){
 			Order o=new Order();
 			o.setOrderNo("o"+i);
-			o.setRouteId(i+10);
+			o.setRouteDetailId(i+10);
 			o.setUserId(i);
 			o.setOrderStatus(OrderStatusEnum.UNPAY);
 			o.setTotalPrice(new BigDecimal(100));
@@ -43,7 +43,7 @@ public class OrderTest extends BaseTest {
 	
 	@Test
 	public void testDelete() {
-		orderService.deleteById(3);
+		orderService.deleteById(4);
 	}
 	
 	@Test
@@ -51,6 +51,7 @@ public class OrderTest extends BaseTest {
 		Order o=new Order();
 		o.setId(1);
 		o.setOrderNo("zzz");
+		o.setRouteDetailId(12);
 		orderService.update(o); 
 	}
 	

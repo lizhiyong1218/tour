@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.lzy.tour.enums.RouteFutrueEnum;
-import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.model.Route;
@@ -33,13 +32,13 @@ public class RouteTest extends BaseTest {
 			route.setTitle("rout"+i);
 			route.setCity("shenzhen");
 			route.setStatus(StatusEnum.ENABLED);
-			route.setRouteStatus(RouteStatusEnum.ABLETOGO);
+//			route.setRouteStatus(RouteStatusEnum.ABLETOGO);
 			route.setRouteType(RouteTypeEnum.INLANDLONG);
 			route.setRouteFeature(RouteFutrueEnum.WORLKING);
 			route.setPicUrl("ssss");
 			route.setPubTime(new Date());
-			route.setStartTime(new Date());
-			route.setEndTime(new Date());
+//			route.setStartTime(new Date());
+//			route.setEndTime(new Date());
 			route.setStartAddress("但是");
 			route.setEndAddress("aaaa");
 			route.setTotalPeople(11);

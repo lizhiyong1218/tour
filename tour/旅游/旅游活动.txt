@@ -108,6 +108,26 @@ id
 				a.学分兑换
 				b.兑换记录
 				c.兑换商品管理
+		
 			
 
+  `original_price` decimal(10,2) default NULL COMMENT '原价',
+  `current_price` decimal(10,2) default NULL COMMENT '当前价',
+  `detail_desc` text COMMENT '详细行程',
+  `price_desc` text COMMENT '费用说明',
+  `prepare_desc` text COMMENT '活动准备',
+  `group_pic_url` varchar(240) default NULL COMMENT '进群图片',
+  `create_time` datetime default NULL COMMENT '创建时间',
+  `create_by` varchar(50) default NULL COMMENT '创建人',
+  `update_time` datetime default NULL COMMENT '修改时间',
+  `update_by` varchar(50) default NULL COMMENT '修改人',
 
+
+活动主表
+	id,标题，状态（上架，下架），城市，图片，活动类型(境内长线，境外长线，短线)，特色(徒步，海岸线，四大远足径，休闲游，深度游，登山，赏花)，
+	发布时间，创建人， 
+	活动费用原价，活动费用现价，详细行程（内容：文字加图片），费用说明（内容：文字加图片），活动准备（内容：文字加图片）,进群图片，
+	 集合信息（出发地点），目的地，总人数，最小成行人数，
+
+活动详细表
+	id,主表id,活动状态(报名中，已成行（至少几个人就成行），已满员，),出发时间，结束时间，
