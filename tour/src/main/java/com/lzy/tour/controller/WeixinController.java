@@ -3,11 +3,13 @@ package com.lzy.tour.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,12 +40,15 @@ import com.foxinmy.weixin4j.util.StringUtil;
 import com.foxinmy.weixin4j.xml.ListsuffixResultDeserializer;
 import com.foxinmy.weixin4j.xml.XmlStream;
 import com.lzy.tour.common.weixin.SignUtil;
+import com.lzy.tour.service.weixin.CoreService;
 
 @Controller
 @RequestMapping("/weixin")
 public class WeixinController {
 	
 	private Logger logger=Logger.getLogger(WeixinController.class.getName());
+	@Resource
+	private CoreService coreService;
 	      
     @RequestMapping(value="/checkSignature",method = RequestMethod.GET)  
     public void get(HttpServletRequest request, HttpServletResponse response) {  
@@ -70,11 +75,29 @@ public class WeixinController {
         }  
     }  
   
-    @RequestMapping(method = RequestMethod.POST)  
+    @RequestMapping(value="/checkSignature",method = RequestMethod.POST)  
     public void post(HttpServletRequest request, HttpServletResponse response) {  
-        //暂时空着，在这里可处理用户请求  
-    	
-    	WeixinProxy weixinProxy = new WeixinProxy();
+        try {  
+            request.setCharacterEncoding("UTF-8");  
+        } catch (UnsupportedEncodingException e) {  
+            e.printStackTrace();  
+        }  
+        response.setCharacterEncoding("UTF-8");  
+  
+        // 调用核心业务类接收消息、处理消息  
+        String respMessage = coreService.processRequest(request);  
+  
+        // 响应消息  
+        PrintWriter out = null;  
+        try {  
+            out = response.getWriter();  
+            out.print(respMessage);  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally {  
+            out.close();  
+            out = null;  
+        } 
     }  
 	
 	@RequestMapping(value="/addMenu",produces={"application/json;charset=UTF-8"})
