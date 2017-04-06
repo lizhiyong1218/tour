@@ -35,7 +35,7 @@ public enum StatusEnum {
 		this.key =  key;
 		this.description =  description;
 	}
-	public static StatusEnum getStatusByKey(String key) {
+	public static StatusEnum getByKey(String key) {
 		if(StringUtils.isNotBlank(key)){
 			StatusEnum[] ary = StatusEnum.values();
 			for (int i = 0; i < ary.length; i++) {

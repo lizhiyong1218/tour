@@ -41,7 +41,7 @@ public enum OrderStatusEnum {
 		this.key =  key;
 		this.description =  description;
 	}
-	public static OrderStatusEnum getStatusByKey(String key) {
+	public static OrderStatusEnum getByKey(String key) {
 		if(StringUtils.isNotBlank(key)){
 			OrderStatusEnum[] ary = OrderStatusEnum.values();
 			for (int i = 0; i < ary.length; i++) {

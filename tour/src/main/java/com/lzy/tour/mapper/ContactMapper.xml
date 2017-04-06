@@ -39,6 +39,9 @@
   	<where>
 	<include refid="pageModelwhere" />
 	</where>
+	<if test="limit != null">
+		limit #{limit}
+	</if>
   </select>
   
   <insert id="insertSelective" parameterType="contact" >

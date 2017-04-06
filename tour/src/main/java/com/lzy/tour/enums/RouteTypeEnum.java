@@ -39,7 +39,7 @@ public enum RouteTypeEnum {
 		this.key =  key;
 		this.description =  description;
 	}
-	public static RouteTypeEnum getStatusByKey(String key) {
+	public static RouteTypeEnum getByKey(String key) {
 		if(StringUtils.isNotBlank(key)){
 			RouteTypeEnum[] ary = RouteTypeEnum.values();
 			for (int i = 0; i < ary.length; i++) {

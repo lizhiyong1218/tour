@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.lzy.tour.enums.RouteStatusEnum;
+import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.model.RouteDetail;
 import com.lzy.tour.service.RouteDetailService;
  
@@ -56,8 +57,10 @@ public class RouteDetailTest extends BaseTest {
 	
 	@Test
 	public void testFindAll(){
-		Map<String, Object> map=new HashMap<String, Object>();
-		List<RouteDetail> list=routeDetailService.getAll(map);
+		Map<String, Object> params=new HashMap<String, Object>();
+		params.put("routeType", RouteTypeEnum.INLANDLONG);
+		params.put("limit", 5);
+		List<RouteDetail> list=routeDetailService.getAll(params);
 		for (RouteDetail o : list) {
 			System.out.println(o);
 		}

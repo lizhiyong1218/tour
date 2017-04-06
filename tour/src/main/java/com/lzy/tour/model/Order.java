@@ -1,13 +1,15 @@
 package com.lzy.tour.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import com.lzy.tour.enums.OrderStatusEnum;
 import com.lzy.tour.enums.PayTypeEnum;
 
-public class Order {
-    private Integer id;
+public class Order implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Integer id;
     /*订单编号*/
     private String orderNo;
     /*线路id*/

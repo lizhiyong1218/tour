@@ -3,6 +3,8 @@ package com.lzy.tour.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.lzy.tour.dao.BaseMapper;
@@ -17,9 +19,10 @@ import com.lzy.tour.service.BaseService;
  * 
  */
 public abstract class BaseServiceImpl<T> implements BaseService<T>{
+	
+	private Logger logger=Logger.getLogger(this.getClass().getName());
 
 	protected abstract  BaseMapper<T> getMapper();
-	
 	/**
 	 * 
 	 * @Title: insert
@@ -30,7 +33,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
 	@Override
 	public int insert(T record){
-		return getMapper().insertSelective(record);
+		try {
+			return getMapper().insertSelective(record);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return 0;
 	}
 	
 	/**
@@ -43,7 +51,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
 	@Override
 	public int deleteById(Integer id){
-		return getMapper().deleteByPrimaryKey(id);
+		try {
+			return getMapper().deleteByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return 0;
 	}
 	
 	/**
@@ -56,7 +69,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
 	@Override
 	public int update(T record){
-		return getMapper().updateByPrimaryKeySelective(record);
+		try {
+			return getMapper().updateByPrimaryKeySelective(record);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return 0;
 	}
 
 	/**
@@ -69,7 +87,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
 	@Override
 	public T getOneById(Integer id){
-		return getMapper().selectByPrimaryKey(id);
+		try {
+			return getMapper().selectByPrimaryKey(id);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return null;
 	}
 	
 	/**
@@ -82,7 +105,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
 	@Override
     public T getOneByModel(Map<String, Object> params){
-    	return getMapper().getOnebyModel(params);
+    	try {
+    		return getMapper().getOnebyModel(params);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return null;
     }
     
 	/**
@@ -95,7 +123,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 */
     @Override
     public List<T> getAll(Map<String, Object> params) {
-    	return getMapper().getAll(params);
+    	try {
+    		return getMapper().getAll(params);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return null;
     }
     
 	/**
@@ -108,7 +141,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	 * @throws
 	 */
     public PageList<T> getPagination(Map<String, Object> params,PageBounds pageBounds){
-    	return getMapper().getAll(params, pageBounds);
+    	try {
+			return getMapper().getAll(params, pageBounds);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return null;
     }
     
 }

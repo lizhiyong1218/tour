@@ -38,7 +38,7 @@ public enum RouteFutrueEnum {
 		this.key =  key;
 		this.description =  description;
 	}
-	public static RouteFutrueEnum getStatusByKey(String key) {
+	public static RouteFutrueEnum getByKey(String key) {
 		if(StringUtils.isNotBlank(key)){
 			RouteFutrueEnum[] ary = RouteFutrueEnum.values();
 			for (int i = 0; i < ary.length; i++) {

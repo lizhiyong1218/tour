@@ -38,7 +38,7 @@ public enum PayTypeEnum {
 		this.key =  key;
 		this.description =  description;
 	}
-	public static PayTypeEnum getStatusByKey(String key) {
+	public static PayTypeEnum getByKey(String key) {
 		if(StringUtils.isNotBlank(key)){
 			PayTypeEnum[] ary = PayTypeEnum.values();
 			for (int i = 0; i < ary.length; i++) {

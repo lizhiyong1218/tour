@@ -34,12 +34,36 @@
   
   
   <select id="getAll" parameterType="map" resultMap="BaseResultMap">
-  	select
-  	<include refid="Base_Column_List" />
+  	select <include refid="Base_Column_List" />
   	from <include refid="table_name" />  
   	<where>
 	<include refid="pageModelwhere" />
 	</where>
+	<if test="limit != null">
+		limit #{limit}
+	</if>	
+  </select>
+  
+  <select id="getRouteAllInfoList" parameterType="map"  resultType="RouteDetail">
+  	select 
+  		routeDetail.id id,
+  		routeDetail.route_id routeId,
+  		routeDetail.route_status routeStatus,
+  		routeDetail.start_time startTime,
+  		routeDetail.end_time endTime,
+  		route.id route.id,
+  		route.title route.title,
+  		route.pic_url route.picUrl
+	from  t_route_detail routeDetail inner join t_route route on routeDetail.route_id=route.id
+  	<where>
+		route.status='ENABLED'
+		<if test="routeType != null" >
+			and route.routeType=#{routeType}
+		</if>
+	</where>
+	<if test="limit != null">
+		limit #{limit}
+	</if>
   </select>
   
   <insert id="insertSelective" parameterType="routeDetail" >

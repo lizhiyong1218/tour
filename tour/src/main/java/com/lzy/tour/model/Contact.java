@@ -1,6 +1,9 @@
 package com.lzy.tour.model;
 
-public class Contact {
+import java.io.Serializable;
+
+public class Contact implements Serializable{
+	private static final long serialVersionUID = 1L;
 	/**/
     private Integer id;
     /*用户id*/

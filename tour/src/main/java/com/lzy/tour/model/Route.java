@@ -1,5 +1,6 @@
 package com.lzy.tour.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,7 +16,8 @@ import com.lzy.tour.enums.StatusEnum;
 * @date 2017年3月30日 下午11:54:39
 *
  */
-public class Route {
+public class Route implements Serializable{
+	private static final long serialVersionUID = 1L;
 	/**/
     private Integer id;
     /*标题*/
