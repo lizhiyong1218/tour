@@ -67,7 +67,7 @@
 	</if>
   </select>
   
-  <insert id="insertSelective" parameterType="route" >
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id" parameterType="route" >
     insert into <include refid="table_name" /> 
     <trim prefix="(" suffix=")" suffixOverrides="," >
       id,

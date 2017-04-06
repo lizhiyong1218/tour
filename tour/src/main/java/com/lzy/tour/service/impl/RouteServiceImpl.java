@@ -7,13 +7,18 @@
 */ 
 package com.lzy.tour.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import com.lzy.tour.dao.BaseMapper;
+import com.lzy.tour.dao.RouteDetailMapper;
 import com.lzy.tour.dao.RouteMapper;
 import com.lzy.tour.model.Route;
+import com.lzy.tour.model.RouteDetail;
 import com.lzy.tour.service.RouteService;
 
 /**
@@ -29,10 +34,27 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
 
 	@Resource
 	private RouteMapper routeMapper;
+	@Resource
+	private RouteDetailMapper routeDetailMapper;
 	
 	@Override
 	protected BaseMapper<Route> getMapper() {
 		return routeMapper;
+	}
+
+	@Override
+	public void addRouteAndDetail(Route route) throws Exception {
+		if(route==null){
+			return;
+		}
+		routeMapper.insertSelective(route);
+		if(route.getId()!=null&&CollectionUtils.isNotEmpty(route.getRouteDetails())){
+			List<RouteDetail> routeDetails = route.getRouteDetails();
+			for (RouteDetail routeDetail : routeDetails) {
+				routeDetail.setRouteId(route.getId());
+			}
+			routeDetailMapper.addBatchs(routeDetails);
+		}
 	}
 
 }

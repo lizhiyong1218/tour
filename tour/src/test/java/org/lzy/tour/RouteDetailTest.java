@@ -4,6 +4,7 @@ package org.lzy.tour;
  * defaultRollback=true 不会往数据库中插入数据
  */
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.lzy.tour.dao.RouteDetailMapper;
 import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.model.RouteDetail;
@@ -22,6 +24,8 @@ public class RouteDetailTest extends BaseTest {
 	 
 	@Resource
 	private RouteDetailService routeDetailService;
+	@Resource
+	private RouteDetailMapper routeDetailMapper;
 	
 	@Test
 	public void testSave() {
@@ -64,6 +68,37 @@ public class RouteDetailTest extends BaseTest {
 		for (RouteDetail o : list) {
 			System.out.println(o);
 		}
+	}
+	
+	/**
+	 * 
+	* @Title: testGetFrontRouteInfos
+	* @Description: 首页路线列表数据      
+	* void    
+	* @throws
+	 */
+	@Test
+	public void testGetFrontRouteInfos(){
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("limit", 5);
+		List<RouteDetail> frontRouteInfos = routeDetailService.getFrontRouteInfos(map);
+		for (RouteDetail routeDetail : frontRouteInfos) {
+			System.err.println(routeDetail);
+		}
+	}
+	
+	@Test
+	public void testAddBatchs(){
+		List<RouteDetail> list=new ArrayList<RouteDetail>();
+		for(int i=0;i<5;i++){
+			RouteDetail detail=new RouteDetail();
+			detail.setRouteId(i);
+			detail.setRouteStatus(RouteStatusEnum.ABLETOGO);
+			detail.setStartTime(new Date());
+			detail.setEndTime(new Date());
+			list.add(detail);
+		}
+		routeDetailMapper.addBatchs(list);
 	}
 	
 }

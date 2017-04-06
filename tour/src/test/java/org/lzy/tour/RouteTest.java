@@ -5,6 +5,7 @@ package org.lzy.tour;
  */
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,11 @@ import javax.annotation.Resource;
 import org.junit.Test;
 
 import com.lzy.tour.enums.RouteFutrueEnum;
+import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.model.Route;
+import com.lzy.tour.model.RouteDetail;
 import com.lzy.tour.service.RouteService;
  
 public class RouteTest extends BaseTest {
@@ -84,6 +87,49 @@ public class RouteTest extends BaseTest {
 		for (Route user2 : list) {
 			System.out.println(user2);
 		}
+	}
+	
+	@Test
+	public void testAddRouteAndDetail(){
+		Route route=new Route();
+		route.setTitle("rout");
+		route.setCity("shenzhen");
+		route.setStatus(StatusEnum.ENABLED);
+		route.setRouteType(RouteTypeEnum.INLANDLONG);
+		route.setRouteFeature(RouteFutrueEnum.WORLKING);
+		route.setPicUrl("ssss");
+		route.setPubTime(new Date());
+		route.setStartAddress("但是");
+		route.setEndAddress("aaaa");
+		route.setTotalPeople(11);
+		route.setMinStartPeople(1);
+		route.setOriginalPrice(BigDecimal.ONE);
+		route.setCurrentPrice(new BigDecimal((12.121)));
+		route.setDetailDesc("detail");
+		route.setPriceDesc("price");
+		route.setPrepareDesc("prepare");
+		route.setGroupPicUrl("group");
+		route.setCreateTime(new Date());
+		route.setCreateBy("aa");
+		route.setUpdateTime(new Date());
+		route.setUpdateBy("zz");
+		
+		List<RouteDetail> list=new ArrayList<RouteDetail>();
+		for(int i=0;i<5;i++){
+			RouteDetail detail=new RouteDetail();
+			detail.setRouteStatus(RouteStatusEnum.ABLETOGO);
+			detail.setStartTime(new Date());
+			detail.setEndTime(new Date());
+			list.add(detail);
+		}
+		route.setRouteDetails(list);
+		
+		try {
+			routeService.addRouteAndDetail(route);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

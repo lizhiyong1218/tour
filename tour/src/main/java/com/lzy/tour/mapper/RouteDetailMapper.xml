@@ -44,27 +44,51 @@
 	</if>	
   </select>
   
-  <select id="getRouteAllInfoList" parameterType="map"  resultType="RouteDetail">
+  <!-- 获取首页路线列表 -->
+  <select id="getFrontRouteInfos" parameterType="map"  resultType="RouteDetail">
   	select 
   		routeDetail.id id,
   		routeDetail.route_id routeId,
   		routeDetail.route_status routeStatus,
   		routeDetail.start_time startTime,
   		routeDetail.end_time endTime,
-  		route.id route.id,
-  		route.title route.title,
-  		route.pic_url route.picUrl
-	from  t_route_detail routeDetail inner join t_route route on routeDetail.route_id=route.id
+  		route.id "route.id",
+  		route.title "route.title",
+  		route.pic_url "route.picUrl"
+	FROM t_route route INNER JOIN t_route_detail routeDetail ON route.id=routeDetail.route_id
   	<where>
 		route.status='ENABLED'
+		AND routeDetail.id in
+		(
+			SELECT id FROM (
+			SELECT detail.id,detail.route_id,detail.route_status,detail.start_time FROM t_route_detail detail 
+			ORDER BY  
+				case 
+					when detail.route_status ='FULLED' then 0 
+					else 1 
+				end
+				DESC
+			,detail.start_time ASC
+			)temp
+			GROUP BY route_id
+		)
 		<if test="routeType != null" >
 			and route.routeType=#{routeType}
 		</if>
 	</where>
+	ORDER BY routeDetail.start_time ASC
 	<if test="limit != null">
 		limit #{limit}
 	</if>
   </select>
+  
+  <insert id="addBatchs" parameterType="java.util.List">
+  	insert into <include refid="table_name" /> 
+  	(route_id, route_status,start_time, end_time) values
+  	<foreach collection="list" item="item" index="index" separator=",">
+	(#{item.routeId},#{item.routeStatus},#{item.startTime},#{item.endTime})  	
+  	</foreach>
+  </insert>
   
   <insert id="insertSelective" parameterType="routeDetail" >
     insert into <include refid="table_name" /> 

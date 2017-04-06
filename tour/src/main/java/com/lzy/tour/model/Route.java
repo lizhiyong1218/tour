@@ -3,6 +3,7 @@ package com.lzy.tour.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.lzy.tour.enums.RouteFutrueEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
@@ -62,6 +63,8 @@ public class Route implements Serializable{
     private Date updateTime;
     /*修改人*/
     private String updateBy;
+    
+    private List<RouteDetail> routeDetails;
     
 	public Integer getId() {
 		return id;
@@ -194,6 +197,12 @@ public class Route implements Serializable{
 	}
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
+	}
+	public List<RouteDetail> getRouteDetails() {
+		return routeDetails;
+	}
+	public void setRouteDetails(List<RouteDetail> routeDetails) {
+		this.routeDetails = routeDetails;
 	}
 	@Override
 	public String toString() {
