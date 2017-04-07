@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public enum OrderStatusEnum {
 	UNPAY("UNPAY","待支付"), 
-	PAYED("PAYED","已支付"),
+	PAYED("PAYED","已支付"),//只有状态是已支付时才认为报名成功
 	TOREFUND("TOREFUND","待退款"),
 	REFUNDED("REFUNDED","已退款"),
 	FINISHED("FINISHED","已完成");

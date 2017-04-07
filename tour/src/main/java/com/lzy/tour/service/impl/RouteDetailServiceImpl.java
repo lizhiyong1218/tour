@@ -43,4 +43,14 @@ public class RouteDetailServiceImpl extends BaseServiceImpl<RouteDetail> impleme
 		return null;
 	}
 
+	@Override
+	public List<RouteDetail> getMyFrontRouteInfos(Map<String, Object> map) {
+		try {
+			return routeDetailMapper.getMyFrontRouteInfos(map);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return null;
+	}
+
 }

@@ -64,6 +64,7 @@ public class Route implements Serializable{
     /*修改人*/
     private String updateBy;
     
+    /*路线详情*/
     private List<RouteDetail> routeDetails;
     
 	public Integer getId() {

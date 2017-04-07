@@ -24,6 +24,14 @@
     <result column="detail_desc" property="detailDesc" jdbcType="LONGVARCHAR" />
     <result column="price_desc" property="priceDesc" jdbcType="LONGVARCHAR" />
     <result column="prepare_desc" property="prepareDesc" jdbcType="LONGVARCHAR" />
+    <collection property="routeDetails" column="detailId" ofType="RouteDetail">    
+         <id property="id" column="detailId"  /> 
+         <result column="route_id" property="routeId" jdbcType="INTEGER" />
+         <result column="apply_num" property="applyNum" jdbcType="INTEGER" />   
+         <result column="route_status" property="routeStatus" jdbcType="VARCHAR" />
+	     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+	     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    </collection> 
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -48,6 +56,20 @@
     from <include refid="table_name" />
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getRouteWithDetailByid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    route.id, route.title, route.city,route.status, route.route_type, 
+    route.route_feature, route.pic_url, route.pub_time, route.start_address, 
+    route.end_address, route.total_people, route.min_start_people, route.original_price, 
+    route.current_price, route.group_pic_url, route.create_time, route.create_by, 
+    route.update_time, route.update_by,
+    route.detail_desc, route.price_desc, route.prepare_desc,
+    detail.id "detailId",detail.route_id,detail.apply_num,
+    detail.route_status,detail.start_time, detail.end_time
+    FROM t_route route INNER JOIN t_route_detail detail ON route.id=detail.route_id
+	where route.id=#{id}
+  </select>  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from <include refid="table_name" />

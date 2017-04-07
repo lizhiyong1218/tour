@@ -3,14 +3,15 @@
 <mapper namespace="com.lzy.tour.dao.RouteDetailMapper" >
   <resultMap id="BaseResultMap" type="routeDetail" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <id column="route_id" property="routeId" jdbcType="INTEGER" />
+    <result column="route_id" property="routeId" jdbcType="INTEGER" />
+    <result column="apply_num" property="applyNum" jdbcType="INTEGER" />
     <result column="route_status" property="routeStatus" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, route_id, route_status,start_time, end_time
+    id, route_id,apply_num, route_status,start_time, end_time
   </sql>
   
   <sql id="table_name">
@@ -44,11 +45,12 @@
 	</if>	
   </select>
   
-  <!-- 获取首页路线列表 -->
+   <!-- 获取首页路线列表 -->
   <select id="getFrontRouteInfos" parameterType="map"  resultType="RouteDetail">
   	select 
   		routeDetail.id id,
   		routeDetail.route_id routeId,
+  		routeDetail.apply_num applyNum,
   		routeDetail.route_status routeStatus,
   		routeDetail.start_time startTime,
   		routeDetail.end_time endTime,
@@ -61,7 +63,7 @@
 		AND routeDetail.id in
 		(
 			SELECT id FROM (
-			SELECT detail.id,detail.route_id,detail.route_status,detail.start_time FROM t_route_detail detail 
+			SELECT detail.id,detail.route_id FROM t_route_detail detail 
 			ORDER BY  
 				case 
 					when detail.route_status ='FULLED' then 0 
@@ -74,6 +76,45 @@
 		)
 		<if test="routeType != null" >
 			and route.routeType=#{routeType}
+		</if>
+	</where>
+	ORDER BY routeDetail.start_time ASC
+	<if test="limit != null">
+		limit #{limit}
+	</if>
+  </select>
+  
+  <!-- 我的路线列表 -->
+  <select id="getMyFrontRouteInfos" parameterType="map"  resultType="RouteDetail">
+  	select 
+  		routeDetail.id id,
+  		routeDetail.route_id routeId,
+  		routeDetail.apply_num applyNum,
+  		routeDetail.route_status routeStatus,
+  		routeDetail.start_time startTime,
+  		routeDetail.end_time endTime,
+  		route.id "route.id",
+  		route.title "route.title",
+  		route.pic_url "route.picUrl"
+	FROM t_order o INNER JOIN t_route_detail routeDetail ON o.route_detail_id=routeDetail.id 
+	INNER JOIN t_route route ON  routeDetail.route_id=route.id
+	<where>
+		o.order_status='PAYED' 
+		AND route.status='ENABLED'
+		AND o.user_id=#{userId}
+		<if test="endFlg!=null">
+			<choose>
+				<when test="endFlg==true"><!-- 已结束 -->
+				    <![CDATA[
+					AND routeDetail.end_time < now()
+					]]> 
+				</when>
+				<when test="endFlg==false"><!-- 未结束 -->
+				    <![CDATA[
+					AND routeDetail.end_time >= now()
+					]]>
+				</when>
+			</choose>
 		</if>
 	</where>
 	ORDER BY routeDetail.start_time ASC
@@ -97,6 +138,9 @@
       <if test="routeId != null" >
         route_id,
       </if>
+      <if test="applyNum != null" >
+        apply_num,
+      </if>
       <if test="routeStatus != null" >
         route_status,
       </if>
@@ -111,6 +155,9 @@
       #{id,jdbcType=INTEGER},
       <if test="routeId != null" >
         #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null" >
+        #{apply_num,jdbcType=INTEGER},
       </if>
       <if test="routeStatus != null" >
         #{routeStatus,jdbcType=VARCHAR},
@@ -129,6 +176,9 @@
     <set>
      <if test="routeId != null" >
         route_id=#{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null" >
+        apply_num=#{applyNum,jdbcType=INTEGER},
       </if>
       <if test="routeStatus != null" >
         route_status = #{routeStatus,jdbcType=VARCHAR},

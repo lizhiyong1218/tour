@@ -87,6 +87,24 @@ public class RouteDetailTest extends BaseTest {
 		}
 	}
 	
+	/**
+	 * 我的路线列表
+	 */
+	@Test
+	public void getMyFrontRouteInfos(){
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", 1);
+		map.put("endFlg", false);
+		List<RouteDetail> frontRouteInfos = routeDetailService.getMyFrontRouteInfos(map);
+		for (RouteDetail routeDetail : frontRouteInfos) {
+			System.err.println(routeDetail);
+		}
+	}
+	
+	
+	/**
+	 * 批量新增
+	 */
 	@Test
 	public void testAddBatchs(){
 		List<RouteDetail> list=new ArrayList<RouteDetail>();

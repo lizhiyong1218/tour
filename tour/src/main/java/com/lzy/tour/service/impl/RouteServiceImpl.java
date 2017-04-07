@@ -12,6 +12,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.lzy.tour.dao.BaseMapper;
@@ -32,6 +33,8 @@ import com.lzy.tour.service.RouteService;
 @Service
 public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteService{
 
+	private static Logger logger=Logger.getLogger(RouteServiceImpl.class);
+	
 	@Resource
 	private RouteMapper routeMapper;
 	@Resource
@@ -55,6 +58,16 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
 			}
 			routeDetailMapper.addBatchs(routeDetails);
 		}
+	}
+
+	@Override
+	public Route getRouteWithDetailByid(Integer id) {
+		try {
+			return routeMapper.getRouteWithDetailByid(id);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return null;
 	}
 
 }

@@ -5,6 +5,7 @@ package org.lzy.tour;
  */
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -62,6 +63,16 @@ public class ContactTest extends BaseTest {
 		PageList<Contact> pagination = contactService.getPagination(map, new PageBounds(2, 2));
 		System.out.println(pagination.getPaginator().getTotalCount());
 		System.out.println(pagination);
+	}
+	
+	@Test
+	public void testgetAll(){
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", "5");
+		List<Contact> all = contactService.getAll(map);
+		for (Contact contact : all) {
+			System.err.println(contact);
+		}
 	}
 	
 }

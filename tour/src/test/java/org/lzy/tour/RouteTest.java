@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.lzy.tour.dao.RouteMapper;
 import com.lzy.tour.enums.RouteFutrueEnum;
 import com.lzy.tour.enums.RouteStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
@@ -27,6 +28,8 @@ public class RouteTest extends BaseTest {
 	 
 	@Resource
 	private RouteService routeService;
+	@Resource
+	private RouteMapper routeMapper;
 	
 	@Test
 	public void testSave() {
@@ -89,6 +92,9 @@ public class RouteTest extends BaseTest {
 		}
 	}
 	
+	/**
+	 * 新增路线和详情
+	 */
 	@Test
 	public void testAddRouteAndDetail(){
 		Route route=new Route();
@@ -129,7 +135,19 @@ public class RouteTest extends BaseTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	/**
+	 * 查找路线和详情信息
+	 */
+	@Test
+	public void testGetRouteWithDetail(){
+		Route routeWithDetailByid = routeService.getRouteWithDetailByid(4);
+		System.err.println(routeWithDetailByid);
+		List<RouteDetail> routeDetails = routeWithDetailByid.getRouteDetails();
+		for (RouteDetail routeDetail : routeDetails) {
+			System.err.println(routeDetail);
+		}
 	}
 	
 }

@@ -15,6 +15,8 @@ public class RouteDetail implements Serializable{
     private Integer id;
     /*路线主表id*/
     private Integer routeId;
+    /*已经报名人数*/
+    private Integer applyNum;
     /*路线状态*/
     private RouteStatusEnum routeStatus;
     /*开始时间*/
@@ -35,6 +37,12 @@ public class RouteDetail implements Serializable{
 	}
 	public void setRouteId(Integer routeId) {
 		this.routeId = routeId;
+	}
+	public Integer getApplyNum() {
+		return applyNum;
+	}
+	public void setApplyNum(Integer applyNum) {
+		this.applyNum = applyNum;
 	}
 	public RouteStatusEnum getRouteStatus() {
 		return routeStatus;
@@ -63,8 +71,8 @@ public class RouteDetail implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "RouteDetail [id=" + id + ", routeId=" + routeId
-				+ ", routeStatus=" + routeStatus + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", route=" + route + "]";
+		return "RouteDetail [id=" + id + ", routeId=" + routeId + ", applyNum="
+				+ applyNum + ", routeStatus=" + routeStatus + ", startTime="
+				+ startTime + ", endTime=" + endTime + ", route=" + route + "]";
 	}
 }

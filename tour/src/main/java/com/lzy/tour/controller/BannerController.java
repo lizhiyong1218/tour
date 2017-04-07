@@ -28,22 +28,24 @@ import com.lzy.tour.service.BannerService;
  *
  */
 @Controller
-@RequestMapping("ad")
+@RequestMapping("banner")
 public class BannerController {
 	
 	@Resource
-	private BannerService bannerMapperService;
+	private BannerService bannerService;
 	
-	@RequestMapping("toPage")
-	private String toPage(HttpServletRequest request){
-		return "";
-	}
-
-	@RequestMapping("/getAds")
+	@RequestMapping("/getIndexBanner")
 	@ResponseBody
-	private List<Banner> getAds(HttpServletRequest request){
+	private List<Banner> getIndexBanner(HttpServletRequest request,Integer limit){
 		Map<String, Object> paras=new HashMap<String, Object>();
-		List<Banner> ads=bannerMapperService.getAll(paras);
+		if(limit!=null&&limit>0){
+			paras.put("limit", limit);
+		}else{
+			paras.put("limit", 5);
+		}
+		paras.put("sortOrderby", "asc");
+		List<Banner> ads=bannerService.getAll(paras);
 		return ads;
 	}
+	
 }

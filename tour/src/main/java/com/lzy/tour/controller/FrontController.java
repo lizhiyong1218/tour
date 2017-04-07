@@ -21,6 +21,7 @@ import com.foxinmy.weixin4j.mp.model.OauthToken;
 import com.foxinmy.weixin4j.util.Weixin4jConfigUtil;
 import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.enums.StatusEnum;
+import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.User;
 import com.lzy.tour.service.UserService;
 
@@ -30,21 +31,17 @@ public class FrontController {
 	
 	private static Logger logger=Logger.getLogger(FrontController.class);
 	
-	private static final String COOKIE_USER_ID="userId";
-	
-	private static final String SESSION_USER="user";
-	
 	@Resource
 	private UserService userService;
 	
 	@RequestMapping("/frontPage")
 	public String front(HttpServletRequest request,HttpServletResponse response){
-		Cookie cooie = CookieUtil.getCooie(request, COOKIE_USER_ID);
+		Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
 		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 			Integer id=Integer.parseInt(cooie.getValue());
 			User user = userService.getOneById(id);
 			if(user!=null){
-				request.getSession().setAttribute(SESSION_USER, user);
+				request.getSession().setAttribute(UserConstant.SESSION_USER, user);
 				return indexPage();
 			}
 		}
@@ -100,8 +97,8 @@ public class FrontController {
 						}
 					} 
 					if(user!=null){//存cookie,session
-						CookieUtil.addMaxAgeCookie(response, COOKIE_USER_ID, user.getId().toString());
-						request.getSession().setAttribute(SESSION_USER, user);
+						CookieUtil.addMaxAgeCookie(response, UserConstant.COOKIE_USER_ID, user.getId().toString());
+						request.getSession().setAttribute(UserConstant.SESSION_USER, user);
 					}
 				}else{
 					logger.error("获取authorizationToken异常,code:"+code);

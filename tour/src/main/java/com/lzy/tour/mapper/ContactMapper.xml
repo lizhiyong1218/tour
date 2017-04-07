@@ -18,6 +18,9 @@
   </sql>
   
   <sql id="pageModelwhere">
+  	<if test="userId !=null">
+  		and user_id=#{userId,jdbcType=INTEGER}
+  	</if>
   </sql>
   
  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

@@ -16,4 +16,12 @@ public interface RouteDetailService extends BaseService<RouteDetail>{
 	 * @throws
 	 */
 	public List<RouteDetail> getFrontRouteInfos(Map<String, Object> map);
+	
+	/**
+	 * 我的路线列表
+	 * @param map
+	 * @return
+	 */
+	public List<RouteDetail> getMyFrontRouteInfos(Map<String, Object> map);
+	
 }
