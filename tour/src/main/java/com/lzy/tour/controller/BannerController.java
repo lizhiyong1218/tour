@@ -7,6 +7,12 @@
 */ 
 package com.lzy.tour.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +20,11 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lzy.tour.model.Banner;
@@ -29,14 +38,20 @@ import com.lzy.tour.service.BannerService;
  */
 @Controller
 @RequestMapping("banner")
+@Api(description="banner接口")
 public class BannerController {
 	
 	@Resource
 	private BannerService bannerService;
-	
-	@RequestMapping("/getIndexBanner")
+
+	@ApiOperation(value="获取首页banner",notes="获取banner",httpMethod="GET",produces=MediaType.APPLICATION_JSON_VALUE)
+//    @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "条数", required = true)
+//    ,@ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
+//    })
+	@RequestMapping(value="/getIndexBanner",method = RequestMethod.GET)
 	@ResponseBody
-	private List<Banner> getIndexBanner(HttpServletRequest request,Integer limit){
+	private List<Banner> getIndexBanner(HttpServletRequest request,@ApiParam(value = "填写条数") @RequestParam Integer limit){
+		System.err.println(request.getParameter("limit"));
 		Map<String, Object> paras=new HashMap<String, Object>();
 		if(limit!=null&&limit>0){
 			paras.put("limit", limit);

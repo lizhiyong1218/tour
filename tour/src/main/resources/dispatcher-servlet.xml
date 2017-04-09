@@ -18,7 +18,10 @@
 	<context:component-scan base-package="com.lzy.tour.controller" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	
+	<bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" id="swagger2Config"/>  
+	 <!-- 
+	<bean class="com.lzy.tour.common.swagger.SwaggerConfig"/>
+	-->
 	<!-- #################################################################### -->
 	<!-- # 2、定义异常解析器 -->
 	<!-- #################################################################### -->
@@ -170,6 +173,11 @@
 	<mvc:resources location="/css/" mapping="/css/**" cache-period="3600" />
 	<mvc:resources location="/images/" mapping="/images/**" cache-period="3600" /> -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:resources mapping="/api/**" location="/api/" /> 
+	<!-- Swagger资源重定向(仅作为后台使用不提供静态资源) -->
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>  
+	<mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>  
+
 
 	<!-- #################################################################### -->
 	<!-- # 10、定义首页 -->
