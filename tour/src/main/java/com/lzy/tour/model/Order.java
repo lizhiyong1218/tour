@@ -9,6 +9,7 @@ import com.lzy.tour.enums.PayTypeEnum;
 
 public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
+	/*主键*/
 	private Integer id;
     /*订单编号*/
     private String orderNo;

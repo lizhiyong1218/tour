@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class OrderContact implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	/*主键*/
 	private Integer id;
-
+	/*订单id*/
     private Integer orderId;
-
+    /*联系人id*/
     private Integer contactId;
 
     public Integer getId() {

@@ -11,7 +11,7 @@ import com.lzy.tour.enums.RouteStatusEnum;
  */
 public class RouteDetail implements Serializable{
 	private static final long serialVersionUID = 1L;
-	/**/
+	/*主键*/
     private Integer id;
     /*路线主表id*/
     private Integer routeId;
@@ -23,7 +23,7 @@ public class RouteDetail implements Serializable{
     private Date startTime;
     /*结束时间*/
     private Date endTime;
-    
+    /*路线基本信息*/
     private Route route;
     
 	public Integer getId() {

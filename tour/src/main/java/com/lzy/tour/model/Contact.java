@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Contact implements Serializable{
 	private static final long serialVersionUID = 1L;
-	/**/
+	/*主键*/
     private Integer id;
     /*用户id*/
     private Integer userId;
