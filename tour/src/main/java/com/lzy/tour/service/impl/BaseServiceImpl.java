@@ -52,7 +52,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	@Override
 	public int deleteById(Integer id){
 		try {
-			return getMapper().deleteByPrimaryKey(id);
+			if(id!=null){
+				return getMapper().deleteByPrimaryKey(id);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -88,7 +90,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
 	@Override
 	public T getOneById(Integer id){
 		try {
-			return getMapper().selectByPrimaryKey(id);
+			if(id!=null){
+				return getMapper().selectByPrimaryKey(id);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}

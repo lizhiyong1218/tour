@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,10 @@ public class RouteDetailServiceImpl extends BaseServiceImpl<RouteDetail> impleme
 	@Override
 	public List<RouteDetail> getMyFrontRouteInfos(Map<String, Object> map) {
 		try {
-			return routeDetailMapper.getMyFrontRouteInfos(map);
+			String userId = (String) map.get("userId");
+			if(StringUtils.isNotBlank(userId)){
+				return routeDetailMapper.getMyFrontRouteInfos(map);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}

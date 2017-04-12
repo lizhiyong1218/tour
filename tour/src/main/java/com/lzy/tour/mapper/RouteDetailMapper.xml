@@ -75,7 +75,7 @@
 			GROUP BY route_id
 		)
 		<if test="routeType != null" >
-			and route.routeType=#{routeType}
+			and route.route_type=#{routeType}
 		</if>
 	</where>
 	ORDER BY routeDetail.start_time ASC

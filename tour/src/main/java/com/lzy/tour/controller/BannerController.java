@@ -8,8 +8,6 @@
 package com.lzy.tour.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
@@ -46,12 +44,9 @@ public class BannerController {
 	private BannerService bannerService;
 
 	@ApiOperation(value="获取首页banner",notes="获取banner",httpMethod="GET",response = Banner.class,produces=MediaType.APPLICATION_JSON_VALUE)
-//    @ApiImplicitParams({@ApiImplicitParam(name = "limit", value = "条数", required = true)
-//    ,@ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
-//    })
 	@RequestMapping(value="/getIndexBanner",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Banner> getIndexBanner(HttpServletRequest request,@ApiParam(value = "填写条数") @RequestParam Integer limit){
+	public List<Banner> getIndexBanner(HttpServletRequest request,@ApiParam(value = "显示条数") @RequestParam Integer limit){
 		System.err.println(request.getParameter("limit"));
 		Map<String, Object> paras=new HashMap<String, Object>();
 		if(limit!=null&&limit>0){
