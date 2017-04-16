@@ -119,4 +119,9 @@ public class FrontController {
 		return "indexPage";
 	}
 	
+	@RequestMapping("/test")
+	public String test(){
+		return "redirect:http://www.baidu.com";
+	}
+	
 }

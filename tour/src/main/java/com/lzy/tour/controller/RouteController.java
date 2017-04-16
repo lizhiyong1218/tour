@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lzy.tour.common.ApiResponse;
 import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.common.Pagination;
+import com.lzy.tour.enums.ResponseStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Route;
@@ -52,15 +54,23 @@ public class RouteController {
 	@ApiOperation(value="获取首页路线列表",notes="获取首页路线列表,传入路线类型和显示显示记录数",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/getIndexRouteInfos")
-	public List<RouteDetail> getIndexRouteInfos(HttpServletRequest request,@ApiParam(value = "显示条数",required=true) @RequestParam Integer limit,
+	public ApiResponse getIndexRouteInfos(HttpServletRequest request,@ApiParam(value = "显示条数",required=true) @RequestParam Integer limit,
 			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=true) @RequestParam String routeType){
-		Map<String, Object> params=new HashMap<String, Object>();
-		params.put("routeType", RouteTypeEnum.getByKey(routeType));
-		Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, 1, limit);
-		if(pagination!=null){
-			return pagination.getRecordList();
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("routeType", RouteTypeEnum.getByKey(routeType));
+			Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, 1, limit);
+			if(pagination!=null){
+				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+				apiResponse.setData(pagination.getRecordList());	
+			}
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
 		}
-		return null;
+		return apiResponse;
 	}
 	
 	/**
@@ -72,9 +82,18 @@ public class RouteController {
 	@ApiOperation(value="获取前台路线详情页信息",notes="传入路线id,返回的结果中包含路线基本信息和routeDetail表中的信息",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/getFrontRouteDetail/{id}")
-	public Route getFrontRouteDetail(HttpServletRequest request,@ApiParam(value = "路线id",required=true) @PathVariable Integer id){
-		Route route = routeService.getRouteWithDetailByid(id);
-		return route;
+	public ApiResponse getFrontRouteDetail(HttpServletRequest request,@ApiParam(value = "路线id",required=true) @PathVariable Integer id){
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			Route route = routeService.getRouteWithDetailByid(id);
+			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+			apiResponse.setData(route);	
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
+		}
+		return apiResponse;
 	}
 	
 	/**
@@ -87,62 +106,95 @@ public class RouteController {
 	@ApiOperation(value="获取前台个人中心我的路线列表",notes="后台设置用户id，前台传入boolean类型参数endFlg，如果为false则查询已报名数据，如果为ture则查询已结束数据",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/getMyFrontRouteInfos")
-	public List<RouteDetail> getMyFrontRouteInfos(HttpServletRequest request, @ApiParam(value = "是否结束",required=true) @RequestParam Boolean endFlg){
-		Integer userId=null;
-		Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
-		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-			userId=Integer.parseInt(cooie.getValue());
+	public ApiResponse getMyFrontRouteInfos(HttpServletRequest request, @ApiParam(value = "是否结束",required=true) @RequestParam Boolean endFlg){
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			Integer userId=null;
+			Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
+				userId=Integer.parseInt(cooie.getValue());
+			}
+			if(userId==null){//TODO
+				userId=1;
+			}
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("endFlg", endFlg);
+			params.put("userId", userId);
+			List<RouteDetail> frontRouteInfos = routeDetailService.getMyFrontRouteInfos(params);
+			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+			apiResponse.setData(frontRouteInfos);	
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
 		}
-		if(userId==null){//TODO
-			userId=1;
-		}
-		Map<String, Object> params=new HashMap<String, Object>();
-		params.put("endFlg", endFlg);
-		params.put("userId", userId);
-		List<RouteDetail> frontRouteInfos = routeDetailService.getMyFrontRouteInfos(params);
-		return frontRouteInfos;
+		return apiResponse;
 	}
 	
 	@ApiOperation(value = "添加路线", notes = "添加路线",httpMethod="POST")  
 	@ResponseBody
 	@RequestMapping(value="/manage/addRoute")
-	public Boolean addRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
-		if(route!=null){
-			try {
-				routeService.addRouteAndDetail(route);
-				return true;
-			} catch (Exception e) {
-				logger.error(e);
+	public ApiResponse addRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			if(route!=null){
+				try {
+					routeService.addRouteAndDetail(route);
+					apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+					apiResponse.setData(true);	
+				} catch (Exception e) {
+					logger.error(e);
+				}
 			}
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
 		}
-		return false;
+		return apiResponse;
 	}
 	
 	@ApiOperation(value = "修改路线", notes = "修改路线",httpMethod="POST")  
 	@ResponseBody
 	@RequestMapping(value="/manage/updateRoute")
-	public Boolean updateRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
-		if(route!=null&&route.getId()!=null){
-			return routeService.update(route)>0?true:false; 
+	public ApiResponse updateRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			if(route!=null&&route.getId()!=null){
+				boolean res= routeService.update(route)>0?true:false; 
+				if(res){
+					apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+					apiResponse.setData(res);				
+				}
+			}
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
 		}
-		return false;
+		return apiResponse;
 	}
 	
 	@ApiOperation(value="获取后台分页路线列表",notes="获取后台分页路线列表,传入路线类型和分页信息",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/manage/getRouteList")
-	public Pagination<RouteDetail> getRouteList(HttpServletRequest request,
+	public ApiResponse getRouteList(HttpServletRequest request,
 			@ApiParam(value = "第几页",required=true) @RequestParam Integer pageNum,
 			@ApiParam(value = "每页记录数",required=true) @RequestParam Integer pageSize,
 			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=false) @RequestParam(required=false) String routeType){
-		
-		Map<String, Object> params=new HashMap<String, Object>();
-		params.put("routeType", RouteTypeEnum.getByKey(routeType));
-		Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, pageNum, pageSize);
-		if(pagination!=null){
-			return pagination;
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
+		try {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("routeType", RouteTypeEnum.getByKey(routeType));
+			Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, pageNum, pageSize);
+			apiResponse.setData(pagination);
+			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+		} catch (Exception e) {
+			apiResponse.setMsg(e.getMessage());
+			logger.error(e);
 		}
-		return null;
+		return apiResponse;
 	}
 	
 }

@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lzy.tour.common.ApiResponse;
 import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.common.Pagination;
 import com.lzy.tour.common.crypto.AES;
 import com.lzy.tour.enums.LoginEnum;
+import com.lzy.tour.enums.ResponseStatusEnum;
 import com.lzy.tour.enums.RoleEnum;
 import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.User;
@@ -83,11 +85,12 @@ public class UserController {
 	@ApiOperation(value="登录",notes="传入用户名和密码验证",httpMethod="GET")
 	@RequestMapping("/login")
 	@ResponseBody
-	public Map<String, Object> login(@ApiParam(value = "用户名" ,required=true ) @RequestParam String userName,
+	public ApiResponse login(@ApiParam(value = "用户名" ,required=true ) @RequestParam String userName,
 			@ApiParam(value = "密码" ,required=true ) @RequestParam String password){
-		Map<String, Object> map=new HashMap<String, Object>();
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		LoginEnum loginEnum=null;
-		String token=null;
+		String token=null;//TODO
 		try {
 			Map<String, Object> params=new HashMap<String, Object>();
 			params.put("userName", userName);
@@ -107,13 +110,13 @@ public class UserController {
 					}
 				}
 			}
+			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
 		} catch (Exception e) {
 			loginEnum=LoginEnum.SYSERR;
 			logger.error("登录异常");
 		}
-		map.put("msg", loginEnum);
-		map.put("token", token);
-		return map;
+		apiResponse.setData(loginEnum);
+		return apiResponse;
 	}
 	
 	@ApiOperation(value="获取后台分页授权用户列表",notes="获取后台分页授权用户列表,传入分页信息",httpMethod="GET")
