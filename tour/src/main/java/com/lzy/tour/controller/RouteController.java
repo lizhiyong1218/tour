@@ -13,13 +13,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lzy.tour.common.CookieUtil;
+import com.lzy.tour.common.Pagination;
 import com.lzy.tour.enums.RouteTypeEnum;
 import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Route;
@@ -31,6 +34,8 @@ import com.lzy.tour.service.RouteService;
 @Controller
 @RequestMapping("route")
 public class RouteController {
+	
+	private static Logger logger=Logger.getLogger(RouteController.class);
 	
 	@Resource
 	private RouteService routeService;
@@ -51,9 +56,11 @@ public class RouteController {
 			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=true) @RequestParam String routeType){
 		Map<String, Object> params=new HashMap<String, Object>();
 		params.put("routeType", RouteTypeEnum.getByKey(routeType));
-		params.put("limit", limit);
-		List<RouteDetail> frontRouteInfos = routeDetailService.getFrontRouteInfos(params);
-		return frontRouteInfos;
+		Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, 1, limit);
+		if(pagination!=null){
+			return pagination.getRecordList();
+		}
+		return null;
 	}
 	
 	/**
@@ -94,5 +101,48 @@ public class RouteController {
 		params.put("userId", userId);
 		List<RouteDetail> frontRouteInfos = routeDetailService.getMyFrontRouteInfos(params);
 		return frontRouteInfos;
-	}	
+	}
+	
+	@ApiOperation(value = "添加路线", notes = "添加路线",httpMethod="POST")  
+	@ResponseBody
+	@RequestMapping(value="/manage/addRoute")
+	public Boolean addRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+		if(route!=null){
+			try {
+				routeService.addRouteAndDetail(route);
+				return true;
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+		return false;
+	}
+	
+	@ApiOperation(value = "修改路线", notes = "修改路线",httpMethod="POST")  
+	@ResponseBody
+	@RequestMapping(value="/manage/updateRoute")
+	public Boolean updateRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+		if(route!=null&&route.getId()!=null){
+			return routeService.update(route)>0?true:false; 
+		}
+		return false;
+	}
+	
+	@ApiOperation(value="获取后台分页路线列表",notes="获取后台分页路线列表,传入路线类型和分页信息",httpMethod="GET")
+	@ResponseBody
+	@RequestMapping("/manage/getRouteList")
+	public Pagination<RouteDetail> getRouteList(HttpServletRequest request,
+			@ApiParam(value = "第几页",required=true) @RequestParam Integer pageNum,
+			@ApiParam(value = "每页记录数",required=true) @RequestParam Integer pageSize,
+			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=false) @RequestParam(required=false) String routeType){
+		
+		Map<String, Object> params=new HashMap<String, Object>();
+		params.put("routeType", RouteTypeEnum.getByKey(routeType));
+		Pagination<RouteDetail> pagination = routeDetailService.getFrontRouteInfos(params, pageNum, pageSize);
+		if(pagination!=null){
+			return pagination;
+		}
+		return null;
+	}
+	
 }

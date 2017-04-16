@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.lzy.tour.common.Pagination;
 
 /**
  * @ClassName: IBaseService
@@ -92,5 +93,18 @@ public interface BaseService<T> {
 	 * @throws
 	 */
     public PageList<T> getPagination(Map<String, Object> params,PageBounds pageBounds);
+    
+    /**
+     * 
+     * @Title: getPagination
+     * @Description: 获取分页对象
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return:     
+     * Pagination<T>    
+     * @throws
+     */
+    public Pagination<T> getPagination(Map<String, Object> params,Integer pageNum,Integer pageSize);
 
 }

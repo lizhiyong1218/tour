@@ -80,8 +80,7 @@ public class RouteDetailTest extends BaseTest {
 	@Test
 	public void testGetFrontRouteInfos(){
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("limit", 5);
-		List<RouteDetail> frontRouteInfos = routeDetailService.getFrontRouteInfos(map);
+		List<RouteDetail> frontRouteInfos = routeDetailService.getFrontRouteInfos(map,1,5).getRecordList();
 		for (RouteDetail routeDetail : frontRouteInfos) {
 			System.err.println(routeDetail);
 		}

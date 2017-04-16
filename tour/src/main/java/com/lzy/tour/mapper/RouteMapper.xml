@@ -12,6 +12,7 @@
     <result column="pub_time" property="pubTime" jdbcType="TIMESTAMP" />
     <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
     <result column="end_address" property="endAddress" jdbcType="VARCHAR" />
+    <result column="total_date" property="totalDate" jdbcType="INTEGER" />
     <result column="total_people" property="totalPeople" jdbcType="INTEGER" />
     <result column="min_start_people" property="minStartPeople" jdbcType="INTEGER" />
     <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
@@ -120,6 +121,9 @@
       <if test="endAddress != null" >
         end_address,
       </if>
+      <if test="totalDate != null" >
+        total_date,
+      </if>
       <if test="totalPeople != null" >
         total_people,
       </if>
@@ -185,6 +189,9 @@
       </if>
       <if test="endAddress != null" >
         #{endAddress,jdbcType=VARCHAR},
+      </if>
+       <if test="totalDate != null" >
+        #{totalDate,jdbcType=INTEGER},
       </if>
       <if test="totalPeople != null" >
         #{totalPeople,jdbcType=INTEGER},
@@ -254,6 +261,9 @@
       </if>
       <if test="endAddress != null" >
         end_address = #{endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="totalDate != null" >
+        total_date = #{totalDate,jdbcType=INTEGER},
       </if>
       <if test="totalPeople != null" >
         total_people = #{totalPeople,jdbcType=INTEGER},

@@ -20,6 +20,7 @@ import com.foxinmy.weixin4j.mp.api.OauthApi;
 import com.foxinmy.weixin4j.mp.model.OauthToken;
 import com.foxinmy.weixin4j.util.Weixin4jConfigUtil;
 import com.lzy.tour.common.CookieUtil;
+import com.lzy.tour.enums.RoleEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.User;
@@ -78,7 +79,7 @@ public class FrontController {
 							user.setOpenId(authorizationToken.getOpenId());
 							user.setNickName(wxUser.getNickName());
 							user.setStatus(StatusEnum.ENABLED);
-							user.setRole("normal");
+							user.setRole(RoleEnum.NORMAL);
 							user.setPicUrl(wxUser.getHeadimgurl());
 							//值为1时是男性，值为2时是女性，值为0时是未知
 							int gender = wxUser.getGender();

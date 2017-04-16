@@ -11,6 +11,7 @@ package com.lzy.tour.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.lzy.tour.enums.RoleEnum;
 import com.lzy.tour.enums.StatusEnum;
 
  
@@ -39,7 +40,7 @@ public class User implements Serializable{
     /*状态*/
     private StatusEnum status;
     /*角色*/
-    private String role;
+    private RoleEnum role;
     /*头像*/
     private String picUrl;
     /*性别*/
@@ -63,157 +64,233 @@ public class User implements Serializable{
     /*个人说明*/
     private String introduction;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public String getOpenId() {
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
+	public String getOpenId() {
 		return openId;
 	}
+
+
 
 	public void setOpenId(String openId) {
 		this.openId = openId;
 	}
 
+
+
 	public String getUserName() {
-        return userName;
-    }
+		return userName;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
 
-    public String getSalt() {
-        return salt;
-    }
 
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getPwd() {
-        return pwd;
-    }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd == null ? null : pwd.trim();
-    }
 
-    public String getNickName() {
-        return nickName;
-    }
+	public String getSalt() {
+		return salt;
+	}
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName == null ? null : nickName.trim();
-    }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
-    }
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 
-    public String getPicUrl() {
-        return picUrl;
-    }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl == null ? null : picUrl.trim();
-    }
 
-    public String getSex() {
-        return sex;
-    }
+	public String getPwd() {
+		return pwd;
+	}
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
-    }
 
-    public String getPhone() {
-        return phone;
-    }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
 
-    public Date getRegisterTime() {
-        return registerTime;
-    }
+	public String getNickName() {
+		return nickName;
+	}
 
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
-    }
+
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+
 
 	public StatusEnum getStatus() {
 		return status;
 	}
 
+
+
 	public void setStatus(StatusEnum status) {
 		this.status = status;
 	}
-	
+
+
+
+	public RoleEnum getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(RoleEnum role) {
+		this.role = role;
+	}
+
+
+
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+
+
+
+	public String getSex() {
+		return sex;
+	}
+
+
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+
+
 	public String getBackgroundUrl() {
 		return backgroundUrl;
 	}
+
+
 
 	public void setBackgroundUrl(String backgroundUrl) {
 		this.backgroundUrl = backgroundUrl;
 	}
 
+
+
 	public String getWork() {
 		return work;
 	}
+
+
 
 	public void setWork(String work) {
 		this.work = work;
 	}
 
+
+
 	public String getHobby() {
 		return hobby;
 	}
+
+
 
 	public void setHobby(String hobby) {
 		this.hobby = hobby;
 	}
 
+
+
 	public String getProficientRoute() {
 		return proficientRoute;
 	}
+
+
 
 	public void setProficientRoute(String proficientRoute) {
 		this.proficientRoute = proficientRoute;
 	}
 
+
+
 	public String getBeanPalace() {
 		return beanPalace;
 	}
+
+
 
 	public void setBeanPalace(String beanPalace) {
 		this.beanPalace = beanPalace;
 	}
 
+
+
 	public String getIntroduction() {
 		return introduction;
 	}
 
+
+
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+
+
 
 	@Override
 	public String toString() {

@@ -315,10 +315,45 @@
    </dependency>
 	<!-- swagger -->
 	
+	<dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.1</version>
+	</dependency>
   </dependencies> 
   
-  <build>
+	<repositories>
+		<repository> 
+		    <id>people.apache.snapshots</id> 
+		    <url> 
+		        http://repository.apache.org/content/groups/snapshots-group/ 
+		    </url> 
+		    <releases> 
+		        <enabled>false</enabled> 
+		    </releases> 
+		    <snapshots> 
+		        <enabled>true</enabled> 
+		    </snapshots> 
+		</repository> 
+	</repositories>
+	
+	<pluginRepositories>
+		<pluginRepository> 
+		    <id>apache.snapshots</id> 
+		    <name>Apache Snapshots</name> 
+		    <url> 
+		        http://repository.apache.org/content/groups/snapshots-group/ 
+		    </url> 
+		    <releases> 
+		        <enabled>false</enabled> 
+		    </releases> 
+		    <snapshots> 
+		        <enabled>true</enabled> 
+		    </snapshots> 
+		</pluginRepository>
+	</pluginRepositories>  
   
+  <build>
 		 <resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
@@ -354,13 +389,23 @@
 				</configuration>
 			</plugin>  
 			
-			  
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.0-SNAPSHOT</version>
+				<configuration>
+					<url>http://119.23.45.28:8080/manager/text</url>
+					<server>lzyserver</server>
+			        <path>/tour</path>   
+					<update>true</update> 
+				</configuration>
+			</plugin>  
 			
 			 <plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 			</plugin> 
-			
+			 
 		</plugins>  
   
     <finalName>tour</finalName>

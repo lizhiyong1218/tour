@@ -43,6 +43,9 @@
 	<if test="userName != null and userName != ''">
 		AND user_name =  #{userName,jdbcType=VARCHAR}
 	</if>
+	<if test="role != null and role != ''">
+		AND role =  #{role,jdbcType=VARCHAR}
+	</if>
   </sql>
   
  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -89,6 +92,9 @@
   	<where>
 	<include refid="pageModelwhere" />
 	</where>
+	<if test="registerTime!=null">
+  		order by register_time ${registerTime}
+  	</if>
 	<if test="limit != null">
 		limit #{limit}
 	</if>	

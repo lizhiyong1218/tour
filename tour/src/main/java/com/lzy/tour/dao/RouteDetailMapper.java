@@ -3,6 +3,8 @@ package com.lzy.tour.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
 import com.lzy.tour.model.RouteDetail;
 
 public interface RouteDetailMapper extends BaseMapper<RouteDetail>{
@@ -16,7 +18,7 @@ public interface RouteDetailMapper extends BaseMapper<RouteDetail>{
 	 * List<RouteDetail>    
 	 * @throws
 	 */
-	public List<RouteDetail> getFrontRouteInfos(Map<String, Object> map);
+	public PageList<RouteDetail> getFrontRouteInfos(Map<String, Object> map,PageBounds pageBounds);
 	
 	/**
 	 * 我的路线列表

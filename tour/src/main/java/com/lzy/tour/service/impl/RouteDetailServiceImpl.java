@@ -16,6 +16,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
+import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.github.miemiedev.mybatis.paginator.domain.Paginator;
+import com.lzy.tour.common.Constans;
+import com.lzy.tour.common.Pagination;
 import com.lzy.tour.dao.BaseMapper;
 import com.lzy.tour.dao.RouteDetailMapper;
 import com.lzy.tour.model.RouteDetail;
@@ -35,9 +40,20 @@ public class RouteDetailServiceImpl extends BaseServiceImpl<RouteDetail> impleme
 	}
 
 	@Override
-	public List<RouteDetail> getFrontRouteInfos(Map<String, Object> map) {
+	public Pagination<RouteDetail> getFrontRouteInfos(Map<String, Object> map,Integer pageNum,Integer pageSize) {
 		try {
-			return routeDetailMapper.getFrontRouteInfos(map);
+			if(pageNum==null||pageNum<1){
+    			pageNum=1;
+    		}
+    		if(pageSize==null||pageSize<1){
+    			pageSize=Constans.DEFAULT_PAGESIZE;
+    		}
+			PageBounds pageBouds=new PageBounds(pageNum, pageSize);
+			PageList<RouteDetail> res = routeDetailMapper.getFrontRouteInfos(map,pageBouds);
+			if(res!=null&&res.getPaginator()!=null){
+				Paginator paginator = res.getPaginator();
+				return new Pagination<RouteDetail>(pageNum, pageSize, paginator.getTotalCount(), res);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}

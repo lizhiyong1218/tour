@@ -39,6 +39,8 @@ public class Route implements Serializable{
     private String startAddress;
     /*目的地*/
     private String endAddress;
+    /*持续时间*/
+    private Integer totalDate;
     /*总人数*/
     private Integer totalPeople;
     /*最小成行人数*/
@@ -64,6 +66,8 @@ public class Route implements Serializable{
     /*修改人*/
     private String updateBy;
     
+    /*开始时间集合*/
+    private List<Date> startDates;
     /*路线详情*/
     private List<RouteDetail> routeDetails;
     
@@ -205,19 +209,34 @@ public class Route implements Serializable{
 	public void setRouteDetails(List<RouteDetail> routeDetails) {
 		this.routeDetails = routeDetails;
 	}
+	
+	public List<Date> getStartDates() {
+		return startDates;
+	}
+	public void setStartDates(List<Date> startDates) {
+		this.startDates = startDates;
+	}
+	public Integer getTotalDate() {
+		return totalDate;
+	}
+	public void setTotalDate(Integer totalDate) {
+		this.totalDate = totalDate;
+	}
 	@Override
 	public String toString() {
 		return "Route [id=" + id + ", title=" + title + ", city=" + city
-				+ ", status=" + status  
-				+ ", routeType=" + routeType + ", routeFeature=" + routeFeature
-				+ ", picUrl=" + picUrl + ", pubTime=" + pubTime
-				+ ", startAddress=" + startAddress + ", endAddress="
-				+ endAddress + ", totalPeople=" + totalPeople
-				+ ", minStartPeople=" + minStartPeople + ", originalPrice="
-				+ originalPrice + ", currentPrice=" + currentPrice
-				+ ", groupPicUrl=" + groupPicUrl + ", createTime=" + createTime
-				+ ", createBy=" + createBy + ", updateTime=" + updateTime
-				+ ", updateBy=" + updateBy + "]";
+				+ ", status=" + status + ", routeType=" + routeType
+				+ ", routeFeature=" + routeFeature + ", picUrl=" + picUrl
+				+ ", pubTime=" + pubTime + ", startAddress=" + startAddress
+				+ ", endAddress=" + endAddress + ", totalDate=" + totalDate
+				+ ", totalPeople=" + totalPeople + ", minStartPeople="
+				+ minStartPeople + ", originalPrice=" + originalPrice
+				+ ", currentPrice=" + currentPrice + ", detailDesc="
+				+ detailDesc + ", priceDesc=" + priceDesc + ", prepareDesc="
+				+ prepareDesc + ", groupPicUrl=" + groupPicUrl
+				+ ", createTime=" + createTime + ", createBy=" + createBy
+				+ ", updateTime=" + updateTime + ", updateBy=" + updateBy
+				+ ", startDates=" + startDates + ", routeDetails="
+				+ routeDetails + "]";
 	}
-	
 }

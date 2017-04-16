@@ -3,19 +3,19 @@ package com.lzy.tour.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  * 
@@ -29,42 +29,38 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 @RequestMapping("upload")
 public class UploadController {
 	
+	private Logger logger=Logger.getLogger(UploadController.class);
 	
-	/**
-	 * 上传模版
-	 * @param response
-	 * @param request
-	 * @throws IllegalStateException
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/uploadImages")
-	public Map<String, Object> upload(HttpServletResponse response,HttpServletRequest request) throws IllegalStateException, IOException{
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request; 
-		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-	   Properties prop = new Properties();
-	   InputStream is=this.getClass().getResourceAsStream("/config.properties"); 
-	   prop.load(is);  
-	   String dirPath = prop.getProperty("uploadFilePath").trim();
-		 File file = new File(dirPath);    
-         if (!file.exists()) {    
-              file.mkdirs();    
-         }
-         String fileName = null;
-         for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {    
-        	  MultipartFile mf = entity.getValue();    
-        	  fileName = mf.getOriginalFilename();  
-              String uuid = UUID.randomUUID().toString().replaceAll("\\-", "");// 返回一个随机UUID。
-              String suffix = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf("."), fileName.length()) : null;
-              String newFileName = uuid + (suffix!=null?suffix:"");// 构成新文件名。
-              File uploadFile = new File(dirPath + newFileName);
-              FileCopyUtils.copy(mf.getBytes(), uploadFile); 
-        	  response.getWriter().print("上传模版"+fileName+"成功");
-         }
-       Map<String, Object> map=new HashMap<>();
-       String realPath1 = request.getScheme()+"://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();  
-       map.put("error", 0);  
-       map.put("url", realPath1+"/uploadFiles/"+fileName); 
-       return map;
-	}
+	@ResponseBody
+    @RequestMapping(value="/uploadImage",method=RequestMethod.POST)
+    public String uploadImage(HttpServletRequest request,@RequestParam("imagefile") MultipartFile file) throws IOException{
+		String fileName=file.getOriginalFilename();
+       logger.info("文件原名: " + fileName);
+       logger.info("文件名称: " + file.getName());
+       logger.info("文件长度: " + file.getSize());
+       logger.info("文件类型: " + file.getContentType());
+       if( file.isEmpty()){
+          logger.error("upload image--------------------------------->failed");
+          return "please select a image";
+       }
+       Properties prop = new Properties();
+   	   InputStream is=this.getClass().getResourceAsStream("/config.properties"); 
+   	   try {
+		prop.load(is);
+	   } catch (IOException e1) {
+		e1.printStackTrace();
+	   }  
+       String forlderPath = prop.getProperty("uploadFilePath").trim();
+       String uuid = UUID.randomUUID().toString().replaceAll("\\-", "");// 返回一个随机UUID。
+       String suffix = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf("."), fileName.length()) : null;
+       String newFileName = uuid + (suffix!=null?suffix:"");// 构成新文件名。
+       /**写入地址中*/
+       FileUtils.copyInputStreamToFile(file.getInputStream(), new File(forlderPath,newFileName));
+       
+       /**返回文件在服务器中的地址，用于存储入库*/
+       String resultUrl = forlderPath+newFileName;
+       logger.info("upload image file result----------------------->"+resultUrl);
+       return resultUrl;
+    }
 
 }

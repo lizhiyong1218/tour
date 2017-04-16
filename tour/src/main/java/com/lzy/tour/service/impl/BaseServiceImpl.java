@@ -7,6 +7,9 @@ import org.apache.log4j.Logger;
 
 import com.github.miemiedev.mybatis.paginator.domain.PageBounds;
 import com.github.miemiedev.mybatis.paginator.domain.PageList;
+import com.github.miemiedev.mybatis.paginator.domain.Paginator;
+import com.lzy.tour.common.Constans;
+import com.lzy.tour.common.Pagination;
 import com.lzy.tour.dao.BaseMapper;
 import com.lzy.tour.service.BaseService;
 
@@ -147,6 +150,25 @@ public abstract class BaseServiceImpl<T> implements BaseService<T>{
     public PageList<T> getPagination(Map<String, Object> params,PageBounds pageBounds){
     	try {
 			return getMapper().getAll(params, pageBounds);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+    	return null;
+    }
+    
+    public Pagination<T> getPagination(Map<String, Object> params,Integer pageNum,Integer pageSize){
+    	try {
+    		if(pageNum==null||pageNum<1){
+    			pageNum=1;
+    		}
+    		if(pageSize==null||pageSize<1){
+    			pageSize=Constans.DEFAULT_PAGESIZE;
+    		}
+			PageList<T> res = getMapper().getAll(params, new PageBounds(pageNum,pageSize));
+			if(res!=null&&res.getPaginator()!=null){
+				Paginator paginator = res.getPaginator();
+				return new Pagination<T>(pageNum, pageSize, paginator.getTotalCount(), res);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}

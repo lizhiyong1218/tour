@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lzy.tour.dao.UserMapper;
+import com.lzy.tour.enums.RoleEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.model.User;
 import com.lzy.tour.service.UserService;
@@ -35,7 +36,7 @@ public class UserTest extends BaseTest {
 			user.setPwd("ss");
 			user.setNickName("名字"+i);
 			user.setStatus(StatusEnum.ENABLED);
-			user.setRole("normal");
+			user.setRole(RoleEnum.NORMAL);
 			user.setPicUrl("ss");
 			user.setSex("male");
 			user.setPhone("123");
