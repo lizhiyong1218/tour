@@ -37,7 +37,7 @@ public class FrontController {
 	
 	@RequestMapping("/frontPage")
 	public String front(HttpServletRequest request,HttpServletResponse response){
-		Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+		Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 			Integer id=Integer.parseInt(cooie.getValue());
 			User user = userService.getOneById(id);
@@ -98,7 +98,7 @@ public class FrontController {
 						}
 					} 
 					if(user!=null){//存cookie,session
-						CookieUtil.addMaxAgeCookie(response, UserConstant.COOKIE_USER_ID, user.getId().toString());
+						CookieUtil.addCookie(response, UserConstant.COOKIE_USER_ID, user.getId().toString(), Integer.MAX_VALUE, null, "/");
 						request.getSession().setAttribute(UserConstant.SESSION_USER, user);
 					}
 				}else{

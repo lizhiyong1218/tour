@@ -111,7 +111,7 @@ public class RouteController {
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
 			Integer userId=null;
-			Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 				userId=Integer.parseInt(cooie.getValue());
 			}

@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,9 +31,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lzy.tour.common.ApiResponse;
+import com.lzy.tour.common.Constans;
+import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.common.Pagination;
+import com.lzy.tour.common.crypto.AES;
 import com.lzy.tour.enums.ResponseStatusEnum;
 import com.lzy.tour.enums.StatusEnum;
+import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Banner;
 import com.lzy.tour.service.BannerService;
 
@@ -55,6 +61,19 @@ public class BannerController {
 	@RequestMapping(value="/getIndexBanner",method = RequestMethod.GET)
 	@ResponseBody
 	public ApiResponse getIndexBanner(HttpServletRequest request,@ApiParam(value = "显示条数") @RequestParam Integer limit){
+		Cookie cookie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
+		if(cookie!=null){
+			String value = cookie.getValue();
+			try {
+				String decrypt = AES.decrypt(value, Constans.TOKEN_SALT);
+				if(StringUtils.isNotEmpty(decrypt)&&decrypt.contains(Constans.TOKEN_PREFIX)){
+					String id=decrypt.replaceAll(Constans.TOKEN_PREFIX, "");
+					System.err.println(id);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -158,4 +177,5 @@ public class BannerController {
 		}
 		return apiResponse;
 	}
+	
 }

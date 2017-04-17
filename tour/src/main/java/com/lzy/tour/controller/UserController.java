@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lzy.tour.common.ApiResponse;
+import com.lzy.tour.common.Constans;
 import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.common.Pagination;
 import com.lzy.tour.common.crypto.AES;
@@ -46,7 +48,7 @@ public class UserController {
 	public User getUserInfo(HttpServletRequest request){
 		try {
 			Integer userId=null;
-			Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 				userId=Integer.parseInt(cooie.getValue());
 			}
@@ -65,7 +67,7 @@ public class UserController {
 	@RequestMapping("updUser")
 	public boolean updUser(HttpServletRequest request,@ApiParam(value = "user" ,required=true ) @RequestBody User user){
 		Integer userId=null;
-		Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+		Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 			userId=Integer.parseInt(cooie.getValue());
 		}
@@ -85,12 +87,12 @@ public class UserController {
 	@ApiOperation(value="登录",notes="传入用户名和密码验证",httpMethod="GET")
 	@RequestMapping("/login")
 	@ResponseBody
-	public ApiResponse login(@ApiParam(value = "用户名" ,required=true ) @RequestParam String userName,
+	public ApiResponse login(HttpServletRequest request,HttpServletResponse response,
+			@ApiParam(value = "用户名" ,required=true ) @RequestParam String userName,
 			@ApiParam(value = "密码" ,required=true ) @RequestParam String password){
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		LoginEnum loginEnum=null;
-		String token=null;//TODO
 		try {
 			Map<String, Object> params=new HashMap<String, Object>();
 			params.put("userName", userName);
@@ -104,7 +106,9 @@ public class UserController {
 					String encrypt = AES.encrypt(password.trim(), user.getSalt());
 					if(encrypt.equals(user.getPwd())){
 						loginEnum=LoginEnum.SUCCESS;
-						token="1234";
+						String str=Constans.TOKEN_PREFIX+user.getId();
+						String token= AES.encrypt(str, Constans.TOKEN_SALT);
+						CookieUtil.addCookieForDays(response, UserConstant.COOKIE_USER_ID, token, 7, null, "/");
 					}else{
 						loginEnum=LoginEnum.PSWERR;
 					}
@@ -113,7 +117,7 @@ public class UserController {
 			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
 		} catch (Exception e) {
 			loginEnum=LoginEnum.SYSERR;
-			logger.error("登录异常");
+			logger.error("登录异常",e);
 		}
 		apiResponse.setData(loginEnum);
 		return apiResponse;

@@ -11,5 +11,8 @@ package com.lzy.tour.common;
 public class Constans {
 
 	public static final Integer DEFAULT_PAGESIZE=20;
+
+	public static final String TOKEN_PREFIX="lzy@tokenPrefix";
+	public static final String TOKEN_SALT="bxaXNivpUUrlB84E";
 	
 }

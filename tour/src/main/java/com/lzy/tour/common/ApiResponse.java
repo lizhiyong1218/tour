@@ -15,6 +15,16 @@ public class ApiResponse implements Serializable{
 	private String msg;
 	/*状态*/
 	private ResponseStatusEnum status;
+	
+	public ApiResponse(ResponseStatusEnum status,String msg){
+		this.status=status;
+		this.msg=msg;
+	}
+	
+	public ApiResponse(){
+		
+	}
+	
 	public Object getData() {
 		return data;
 	}

@@ -6,9 +6,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <body>
 <h2>Hello World!</h2>
+<input type="text" id="userName">
+<input type="text" id="password">
+<input type="button" value="登录" id="login">
+<br/>
+
 <input type="file" id="upload" name="imagefile" accept="image/png,image/gif">
 <input  type="button"  value="上传" onclick="ajaxFileUpload();"/>
 <img id="logo" width="100" height="100" src=""/>
+
 
 <script src="<%=basePath%>/resources/js/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="<%=basePath%>/resources/assets/ajaxfileupload.js" type="text/javascript"></script>
@@ -30,6 +36,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        }
 	    });
 	}
+	
+	$('#login').click(function(){
+		$.ajax({
+			type:"POST",
+			url:ctx+'/user/login',
+			data:{
+				userName:$('#userName').val(),
+				password:$('#password').val(),
+			},
+			succes:function(res){
+				console.log(res);
+			}
+		});
+		
+		/*
+		 $.ajax({
+		     type:"POST",
+	//async: false,//是否异步 默认为true,
+	    //timeout: 3000,
+			 url:basePath+'/rma/confirmRma.do',
+			 data:{
+				 	rmaId:rmaId,
+				 	rmaType:rmaType,
+				 	returnCount:returnCount,
+				 	rmaNo:rmaNo
+				 },
+			success:function(result){
+			        if (result.responseCode == 101){
+		                showInfo('更新失败！原因：'+result.responseMsg);
+		            } else {
+		            	$('#tbList').datagrid("reload"); 
+		            	showSuc('更新成功！'); 
+		            }
+		       },
+		   });
+		*/
+	});
+	
+	
+	
 </script> 
 </body>
 </html>

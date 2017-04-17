@@ -46,7 +46,7 @@ public class ContactController {
 	public List<Contact> getMyContacts(HttpServletRequest request){
 		try {
 			Integer userId=null;
-			Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 				userId=Integer.parseInt(cooie.getValue());
 			}
@@ -94,7 +94,7 @@ public class ContactController {
 	public boolean addContact(HttpServletRequest request,@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact){
 		if(contact!=null){
 			Integer userId=null;
-			Cookie cooie = CookieUtil.getCooie(request, UserConstant.COOKIE_USER_ID);
+			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
 				userId=Integer.parseInt(cooie.getValue());
 			}
