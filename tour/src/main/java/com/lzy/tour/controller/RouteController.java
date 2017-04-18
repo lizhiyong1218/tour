@@ -55,7 +55,7 @@ public class RouteController {
 	@ResponseBody
 	@RequestMapping("/getIndexRouteInfos")
 	public ApiResponse getIndexRouteInfos(HttpServletRequest request,@ApiParam(value = "显示条数",required=true) @RequestParam Integer limit,
-			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=true) @RequestParam String routeType){
+			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=true) @RequestParam String routeType)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -69,6 +69,7 @@ public class RouteController {
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}
@@ -82,7 +83,7 @@ public class RouteController {
 	@ApiOperation(value="获取前台路线详情页信息",notes="传入路线id,返回的结果中包含路线基本信息和routeDetail表中的信息",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/getFrontRouteDetail/{id}")
-	public ApiResponse getFrontRouteDetail(HttpServletRequest request,@ApiParam(value = "路线id",required=true) @PathVariable Integer id){
+	public ApiResponse getFrontRouteDetail(HttpServletRequest request,@ApiParam(value = "路线id",required=true) @PathVariable Integer id)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -92,6 +93,7 @@ public class RouteController {
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}
@@ -106,7 +108,7 @@ public class RouteController {
 	@ApiOperation(value="获取前台个人中心我的路线列表",notes="后台设置用户id，前台传入boolean类型参数endFlg，如果为false则查询已报名数据，如果为ture则查询已结束数据",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/getMyFrontRouteInfos")
-	public ApiResponse getMyFrontRouteInfos(HttpServletRequest request, @ApiParam(value = "是否结束",required=true) @RequestParam Boolean endFlg){
+	public ApiResponse getMyFrontRouteInfos(HttpServletRequest request, @ApiParam(value = "是否结束",required=true) @RequestParam Boolean endFlg)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -127,6 +129,7 @@ public class RouteController {
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}
@@ -134,7 +137,7 @@ public class RouteController {
 	@ApiOperation(value = "添加路线", notes = "添加路线",httpMethod="POST")  
 	@ResponseBody
 	@RequestMapping(value="/manage/addRoute")
-	public ApiResponse addRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+	public ApiResponse addRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -145,11 +148,13 @@ public class RouteController {
 					apiResponse.setData(true);	
 				} catch (Exception e) {
 					logger.error(e);
+					throw e;
 				}
 			}
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}
@@ -157,7 +162,7 @@ public class RouteController {
 	@ApiOperation(value = "修改路线", notes = "修改路线",httpMethod="POST")  
 	@ResponseBody
 	@RequestMapping(value="/manage/updateRoute")
-	public ApiResponse updateRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route){
+	public ApiResponse updateRoute(HttpServletRequest request,@ApiParam(value = "route" ,required=true ) @RequestBody Route route)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -171,6 +176,7 @@ public class RouteController {
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}
@@ -181,7 +187,7 @@ public class RouteController {
 	public ApiResponse getRouteList(HttpServletRequest request,
 			@ApiParam(value = "第几页",required=true) @RequestParam Integer pageNum,
 			@ApiParam(value = "每页记录数",required=true) @RequestParam Integer pageSize,
-			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=false) @RequestParam(required=false) String routeType){
+			@ApiParam(value = "路线类型,类型描述见RouteTypeEnum",required=false) @RequestParam(required=false) String routeType)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
@@ -193,6 +199,7 @@ public class RouteController {
 		} catch (Exception e) {
 			apiResponse.setMsg(e.getMessage());
 			logger.error(e);
+			throw e;
 		}
 		return apiResponse;
 	}

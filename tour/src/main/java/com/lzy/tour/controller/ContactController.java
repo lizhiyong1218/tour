@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lzy.tour.common.ApiResponse;
 import com.lzy.tour.common.CookieUtil;
+import com.lzy.tour.enums.ResponseStatusEnum;
 import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Contact;
 import com.lzy.tour.model.User;
@@ -43,7 +45,9 @@ public class ContactController {
 	@ApiOperation(value="获取我的联系人",notes="前台不用传参,后台获取用户id然后查询常用联系人",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("getMyContacts")
-	public List<Contact> getMyContacts(HttpServletRequest request){
+	public ApiResponse getMyContacts(HttpServletRequest request)throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
 			Integer userId=null;
 			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
@@ -56,12 +60,14 @@ public class ContactController {
 			if(userId!=null){
 				Map<String, Object> params=new HashMap<String, Object>();
 				params.put("userId", userId);
-				return contactService.getAll(params);
+				apiResponse.setData(contactService.getAll(params));
+				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
 			}
 		} catch (Exception e) {
 			logger.error(e); 
+			throw e;
 		}
-		return null;
+		return apiResponse;
 	}
 	
 	/**
@@ -72,15 +78,18 @@ public class ContactController {
 	@ApiOperation(value = "修改联系人", notes = "修改常用联系人,前台需要传入的属性：id,nickName,phone,身份证idCard",httpMethod="POST")
 	@ResponseBody
 	@RequestMapping("updContact")
-	public boolean updContact(@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact){
+	public ApiResponse updContact(@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact)throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		if(contact!=null&&contact.getId()!=null){
 			contact.setUserId(null);
-			int update = contactService.update(contact);
-			if(update>0){
-				return true;
+			boolean res=contactService.update(contact)>0?true:false;
+			if(res){
+				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+				apiResponse.setData(res);				
 			}
 		}
-		return false;
+		return apiResponse;
 	}
 	
 	/**
@@ -91,7 +100,10 @@ public class ContactController {
 	@ApiOperation(value = "添加常用联系人", notes = "添加常用联系人,后台设置用户id,前台只需要传入的属性：nickName,phone,身份证idCard",httpMethod="POST") 
 	@ResponseBody
 	@RequestMapping("addContact")
-	public boolean addContact(HttpServletRequest request,@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact){
+	public ApiResponse addContact(HttpServletRequest request,
+			@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact) throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		if(contact!=null){
 			Integer userId=null;
 			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
@@ -103,12 +115,13 @@ public class ContactController {
 			}
 			contact.setId(null);
 			contact.setUserId(userId);
-			int update = contactService.insert(contact);
-			if(update>0){
-				return true;
+			boolean res=contactService.insert(contact)>0?true:false;
+			if(res){
+				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+				apiResponse.setData(res);				
 			}
 		}
-		return false;
+		return apiResponse;
 	}
 	
 }

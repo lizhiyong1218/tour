@@ -40,6 +40,8 @@
 	</bean> 
 	-->
 	
+	<bean class="com.lzy.tour.interceptor.exception.CustomExceptionResolver"/>
+	
 	<!-- #################################################################### -->
 	<!-- # 3、开启织入切面 @Aspectj -->
 	<!-- # 3.1、proxy-target-class 为 true 使用CGLIB 动态代理织入增强 -->
@@ -165,6 +167,21 @@
 		</mvc:interceptor>
 	</mvc:interceptors> 
 	-->
+	
+	<bean id="securityAspect" class="com.lzy.tour.interceptor.aop.SecurityAspect">  
+	</bean>  
+	  
+	<aop:config>  
+	    <aop:aspect ref="securityAspect">  
+	    <!-- 
+	        <aop:around method="execute" pointcut="@annotation(org.springframework.web.bind.annotation.RequestMapping)"/>
+            -->
+	        <aop:around method="execute" pointcut="execution(* com.lzy.tour.controller..*.*(..))  and !execution(* com.lzy.tour.controller.UserController.login(..))"/>
+           <!--  
+            <aop:around method="execute" pointcut="execution( * com.lzy.tour.controller.*(..) )"/>
+            -->
+	    </aop:aspect>  
+	</aop:config>  
 
 	<!-- #################################################################### -->
 	<!-- # 9、定义静态资源 -->

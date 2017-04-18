@@ -45,7 +45,9 @@ public class UserController {
 	@ApiOperation(value="获取个人信息",notes="获取个人信息，后台根据用户id查询,前台不需要传参",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("getUserInfo")
-	public User getUserInfo(HttpServletRequest request){
+	public ApiResponse getUserInfo(HttpServletRequest request)throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
 			Integer userId=null;
 			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
@@ -55,17 +57,20 @@ public class UserController {
 			if(userId==null){//TODO
 				userId=1;
 			}
-			return userService.getOneById(userId);
+			apiResponse.setData(userService.getOneById(userId));
+			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
 		} catch (Exception e) {
 			logger.error(e); 
 		}
-		return null;
+		return apiResponse;
 	}
 	
 	@ApiOperation(value="修改个人信息",notes="修改个人信息，传入前端页面属性",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("updUser")
-	public boolean updUser(HttpServletRequest request,@ApiParam(value = "user" ,required=true ) @RequestBody User user){
+	public ApiResponse updUser(HttpServletRequest request,@ApiParam(value = "user" ,required=true ) @RequestBody User user)throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		Integer userId=null;
 		Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
 		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
@@ -76,12 +81,13 @@ public class UserController {
 		}
 		if(user!=null){
 			user.setId(userId);
-			int update = userService.update(user);
-			if(update>0){
-				return true;
+			boolean res=userService.update(user)>0?true:false;
+			if(res){
+				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+				apiResponse.setData(res);				
 			}
 		}
-		return false;
+		return apiResponse;
 	}
 	
 	@ApiOperation(value="登录",notes="传入用户名和密码验证",httpMethod="GET")
@@ -89,7 +95,7 @@ public class UserController {
 	@ResponseBody
 	public ApiResponse login(HttpServletRequest request,HttpServletResponse response,
 			@ApiParam(value = "用户名" ,required=true ) @RequestParam String userName,
-			@ApiParam(value = "密码" ,required=true ) @RequestParam String password){
+			@ApiParam(value = "密码" ,required=true ) @RequestParam String password)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		LoginEnum loginEnum=null;
@@ -126,17 +132,18 @@ public class UserController {
 	@ApiOperation(value="获取后台分页授权用户列表",notes="获取后台分页授权用户列表,传入分页信息",httpMethod="GET")
 	@ResponseBody
 	@RequestMapping("/manage/getUserList")
-	public Pagination<User> getUserList(HttpServletRequest request,
+	public ApiResponse getUserList(HttpServletRequest request,
 			@ApiParam(value = "第几页",required=true) @RequestParam Integer pageNum,
-			@ApiParam(value = "每页记录数",required=true) @RequestParam Integer pageSize){
+			@ApiParam(value = "每页记录数",required=true) @RequestParam Integer pageSize)throws Exception{
+		ApiResponse apiResponse=new ApiResponse();
+		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		Map<String, Object> params=new HashMap<String, Object>();
 		params.put("role", RoleEnum.NORMAL);
 		params.put("registerTime", "desc");
 		Pagination<User> pagination = userService.getPagination(params, pageNum, pageSize);
-		if(pagination!=null){
-			return pagination;
-		}
-		return null;
+		apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
+		apiResponse.setData(pagination); 
+		return apiResponse;
 	}
 	
 }
