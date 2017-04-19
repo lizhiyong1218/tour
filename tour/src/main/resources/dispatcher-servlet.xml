@@ -168,18 +168,13 @@
 	</mvc:interceptors> 
 	-->
 	
-	<bean id="securityAspect" class="com.lzy.tour.interceptor.aop.SecurityAspect">  
-	</bean>  
-	  
+	<bean id="securityAspect" class="com.lzy.tour.interceptor.aop.SecurityAspect"></bean>  
 	<aop:config>  
 	    <aop:aspect ref="securityAspect">  
-	    <!-- 
+	    	<!-- 
 	        <aop:around method="execute" pointcut="@annotation(org.springframework.web.bind.annotation.RequestMapping)"/>
             -->
-	        <aop:around method="execute" pointcut="execution(* com.lzy.tour.controller..*.*(..))  and !execution(* com.lzy.tour.controller.UserController.login(..))"/>
-           <!--  
-            <aop:around method="execute" pointcut="execution( * com.lzy.tour.controller.*(..) )"/>
-            -->
+	        <aop:around method="execute" pointcut="execution(* com.lzy.tour.controller..*.*(..))  and !execution(* com.lzy.tour.controller.UserController.login(..)) and !execution(* com.lzy.tour.controller.FrontController.front(..)) and !execution(* com.lzy.tour.controller.FrontController.authorDeal(..))"/>
 	    </aop:aspect>  
 	</aop:config>  
 

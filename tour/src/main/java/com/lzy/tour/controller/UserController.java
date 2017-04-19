@@ -1,18 +1,16 @@
 package com.lzy.tour.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,21 +45,9 @@ public class UserController {
 	@RequestMapping("getUserInfo")
 	public ApiResponse getUserInfo(HttpServletRequest request)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
-		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
-		try {
-			Integer userId=null;
-			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-				userId=Integer.parseInt(cooie.getValue());
-			}
-			if(userId==null){//TODO
-				userId=1;
-			}
-			apiResponse.setData(userService.getOneById(userId));
-			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
-		} catch (Exception e) {
-			logger.error(e); 
-		}
+		Integer userId=CookieUtil.getUserIdFromCookie(request);
+		apiResponse.setData(userService.getOneById(userId));
+		apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
 		return apiResponse;
 	}
 	
@@ -71,15 +57,8 @@ public class UserController {
 	public ApiResponse updUser(HttpServletRequest request,@ApiParam(value = "user" ,required=true ) @RequestBody User user)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
-		Integer userId=null;
-		Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-			userId=Integer.parseInt(cooie.getValue());
-		}
-		if(userId==null){//TODO
-			userId=1;
-		}
-		if(user!=null){
+		Integer userId=CookieUtil.getUserIdFromCookie(request);
+		if(user!=null&&userId!=null){
 			user.setId(userId);
 			boolean res=userService.update(user)>0?true:false;
 			if(res){

@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,6 @@ import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.common.Pagination;
 import com.lzy.tour.enums.ResponseStatusEnum;
 import com.lzy.tour.enums.RouteTypeEnum;
-import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Route;
 import com.lzy.tour.model.RouteDetail;
 import com.lzy.tour.service.RouteDetailService;
@@ -111,25 +108,14 @@ public class RouteController {
 	public ApiResponse getMyFrontRouteInfos(HttpServletRequest request, @ApiParam(value = "是否结束",required=true) @RequestParam Boolean endFlg)throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
-		try {
-			Integer userId=null;
-			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-				userId=Integer.parseInt(cooie.getValue());
-			}
-			if(userId==null){//TODO
-				userId=1;
-			}
+		Integer userId=CookieUtil.getUserIdFromCookie(request);
+		if(userId!=null){
 			Map<String, Object> params=new HashMap<String, Object>();
 			params.put("endFlg", endFlg);
 			params.put("userId", userId);
 			List<RouteDetail> frontRouteInfos = routeDetailService.getMyFrontRouteInfos(params);
 			apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
-			apiResponse.setData(frontRouteInfos);	
-		} catch (Exception e) {
-			apiResponse.setMsg(e.getMessage());
-			logger.error(e);
-			throw e;
+			apiResponse.setData(frontRouteInfos);
 		}
 		return apiResponse;
 	}

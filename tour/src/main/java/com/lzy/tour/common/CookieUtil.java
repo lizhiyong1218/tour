@@ -5,11 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import com.lzy.tour.common.crypto.AES;
+import com.lzy.tour.enums.UserConstant;
 
 
 public class CookieUtil {
 
-
+	private final static Logger logger=Logger.getLogger(CookieUtil.class);
+	
 	public static Cookie getCookie(HttpServletRequest request, String cookieName) {
 		Cookie[] cookies = request.getCookies();
 		Cookie ck = null;
@@ -57,4 +62,23 @@ public class CookieUtil {
 		return addCookie(resp, cookieName, cookieValue, maxAge, domain, path);
 	}
 
+	public static Integer getUserIdFromCookie(HttpServletRequest request) {
+        Integer id=null;
+        Cookie cookie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
+		if(cookie!=null){
+			String value = cookie.getValue();
+			try {
+				String decrypt = AES.decrypt(value, Constans.TOKEN_SALT);
+				if(StringUtils.isNotEmpty(decrypt)&&decrypt.contains(Constans.TOKEN_PREFIX)){
+					String str=decrypt.replaceAll(Constans.TOKEN_PREFIX, "");
+					if(StringUtils.isNotBlank(str)){
+						id=Integer.parseInt(str);
+					}
+				}
+			} catch (Exception e) {
+				logger.error("decrypt用户id异常",e);
+			}
+		}
+		return id;
+	}
 }

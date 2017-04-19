@@ -9,6 +9,7 @@ package com.lzy.tour.service.impl;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.lzy.tour.dao.BaseMapper;
@@ -26,6 +27,8 @@ import com.lzy.tour.service.UserService;
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService{
 
+	private static Logger logger=Logger.getLogger(UserServiceImpl.class);
+	
 	@Resource
 	private UserMapper userMapper;
 	

@@ -5,14 +5,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lzy.tour.common.ApiResponse;
 import com.lzy.tour.common.CookieUtil;
 import com.lzy.tour.enums.ResponseStatusEnum;
-import com.lzy.tour.enums.UserConstant;
 import com.lzy.tour.model.Contact;
-import com.lzy.tour.model.User;
 import com.lzy.tour.service.ContactService;
 
 @Api(description="常用联系人接口")
@@ -49,14 +44,7 @@ public class ContactController {
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
 		try {
-			Integer userId=null;
-			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-				userId=Integer.parseInt(cooie.getValue());
-			}
-			if(userId==null){//TODO
-				userId=1;
-			}
+			Integer userId=CookieUtil.getUserIdFromCookie(request);
 			if(userId!=null){
 				Map<String, Object> params=new HashMap<String, Object>();
 				params.put("userId", userId);
@@ -104,15 +92,8 @@ public class ContactController {
 			@ApiParam(value = "contact" ,required=true ) @RequestBody Contact contact) throws Exception{
 		ApiResponse apiResponse=new ApiResponse();
 		apiResponse.setStatus(ResponseStatusEnum.SYSERR);
-		if(contact!=null){
-			Integer userId=null;
-			Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-			if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-				userId=Integer.parseInt(cooie.getValue());
-			}
-			if(userId==null){//TODO
-				userId=1;
-			}
+		Integer userId=CookieUtil.getUserIdFromCookie(request);
+		if(contact!=null&&userId!=null){
 			contact.setId(null);
 			contact.setUserId(userId);
 			boolean res=contactService.insert(contact)>0?true:false;

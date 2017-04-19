@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +18,9 @@ import com.foxinmy.weixin4j.mp.WeixinProxy;
 import com.foxinmy.weixin4j.mp.api.OauthApi;
 import com.foxinmy.weixin4j.mp.model.OauthToken;
 import com.foxinmy.weixin4j.util.Weixin4jConfigUtil;
+import com.lzy.tour.common.Constans;
 import com.lzy.tour.common.CookieUtil;
+import com.lzy.tour.common.crypto.AES;
 import com.lzy.tour.enums.RoleEnum;
 import com.lzy.tour.enums.StatusEnum;
 import com.lzy.tour.enums.UserConstant;
@@ -35,16 +36,21 @@ public class FrontController {
 	@Resource
 	private UserService userService;
 	
+	/**
+	 * 
+	* @Title: front
+	* @Description: 微信菜单点击的首页url地址
+	* @param request
+	* @param response
+	* @return:     
+	* String    
+	* @throws
+	 */
 	@RequestMapping("/frontPage")
 	public String front(HttpServletRequest request,HttpServletResponse response){
-		Cookie cooie = CookieUtil.getCookie(request, UserConstant.COOKIE_USER_ID);
-		if(cooie!=null&&StringUtils.isNotBlank(cooie.getValue())){//有userid
-			Integer id=Integer.parseInt(cooie.getValue());
-			User user = userService.getOneById(id);
-			if(user!=null){
-				request.getSession().setAttribute(UserConstant.SESSION_USER, user);
-				return indexPage();
-			}
+		Integer userId= CookieUtil.getUserIdFromCookie(request);
+		if(userId!=null){//有userid
+			return indexPage();
 		}
 		WeixinProxy weixinProxy=new WeixinProxy();
 		OauthApi oauthApi=weixinProxy.getOauthApi();
@@ -97,10 +103,12 @@ public class FrontController {
 							logger.error("获取微信用户异常,openId:"+authorizationToken.getOpenId());
 						}
 					} 
-					if(user!=null){//存cookie,session
-						CookieUtil.addCookie(response, UserConstant.COOKIE_USER_ID, user.getId().toString(), Integer.MAX_VALUE, null, "/");
-						request.getSession().setAttribute(UserConstant.SESSION_USER, user);
-					}
+					if(user!=null&&user.getId()!=null){//存cookie 
+						String str=Constans.TOKEN_PREFIX+user.getId();
+						String token= AES.encrypt(str, Constans.TOKEN_SALT);
+						CookieUtil.addCookieForDays(response, UserConstant.COOKIE_USER_ID, token, 7, null, "/");
+						return indexPage();
+					} 
 				}else{
 					logger.error("获取authorizationToken异常,code:"+code);
 				}
@@ -110,7 +118,7 @@ public class FrontController {
 		} catch (WeixinException e) {
 			logger.error(e);
 		}
-		return indexPage();
+		return "/err";//TODO 异常页面 
 	}
 	
 	@RequestMapping("/indexPage")
