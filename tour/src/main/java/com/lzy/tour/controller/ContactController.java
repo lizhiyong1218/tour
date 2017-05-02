@@ -99,7 +99,7 @@ public class ContactController {
 			boolean res=contactService.insert(contact)>0?true:false;
 			if(res){
 				apiResponse.setStatus(ResponseStatusEnum.SUCCESS);
-				apiResponse.setData(res);				
+				apiResponse.setData(contact);				
 			}
 		}
 		return apiResponse;

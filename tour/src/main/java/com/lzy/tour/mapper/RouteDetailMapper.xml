@@ -56,7 +56,14 @@
   		routeDetail.end_time endTime,
   		route.id "route.id",
   		route.title "route.title",
-  		route.pic_url "route.picUrl"
+  		route.pic_url "route.picUrl",
+  		route.route_type "route.routeType",
+  		route.original_price "route.originalPrice",
+  		route.current_price "route.currentPrice",
+  		route.total_people "route.totalPeople",
+  		route.min_start_people "route.minStartPeople",
+  		route.status "route.status",
+  		route.total_date "route.totalDate"
 	FROM t_route route INNER JOIN t_route_detail routeDetail ON route.id=routeDetail.route_id
   	<where>
 		route.status='ENABLED'
@@ -95,7 +102,14 @@
   		routeDetail.end_time endTime,
   		route.id "route.id",
   		route.title "route.title",
-  		route.pic_url "route.picUrl"
+  		route.pic_url "route.picUrl",
+  		route.route_type "route.routeType",
+  		route.original_price "route.originalPrice",
+  		route.current_price "route.currentPrice",
+  		route.total_people "route.totalPeople",
+  		route.min_start_people "route.minStartPeople",
+  		route.status "route.status",
+  		route.total_date "route.totalDate"
 	FROM t_order o INNER JOIN t_route_detail routeDetail ON o.route_detail_id=routeDetail.id 
 	INNER JOIN t_route route ON  routeDetail.route_id=route.id
 	<where>

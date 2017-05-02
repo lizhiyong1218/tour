@@ -34,7 +34,7 @@ public class CustomObjectMapper extends ObjectMapper{
 					JsonGenerator jsonGenerator, 
 					SerializerProvider provider)
 					throws IOException, JsonProcessingException {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				jsonGenerator.writeString(sdf.format(value));
 			}
 		});
